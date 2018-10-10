@@ -1,0 +1,15 @@
+<div class="boxbg mtop10">
+    <div class="h5_16 cred">Related<a href="{$category[7][url]}" style="float:right">more</a></div>
+    {pc:content action="lists" num="6" catid="7" order="listorder desc, id desc"}
+    <ul class="product_list clear">
+        {php $i=0;}
+        {loop $data $d}
+        {php $i++;}
+        <li onclick="location.href='{$d[url]}'">
+            <img src="{php echo $d['thumb']?thumb($d['thumb'],75,110):(IMG_PATH.'nopic_small.gif')}" />
+            <div class="gray">{$d['title']}</div>
+        </li>
+        {/loop}
+    </ul>
+    {/pc}
+</div>

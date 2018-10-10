@@ -1,0 +1,24 @@
+{template "content","header"}
+<!-- content -->
+<!--breadcrumb-->
+{template "content","breadcrumb"}
+<!--breadcrumb end-->
+
+<!-- content -->
+<div class="solu-tit">
+    <img src="{MOBILE_PIC_PATH}solu_1.png" width="63" height="63" srcset="{MOBILE_PIC_PATH}solu_1@2x.png 2x" class="mtop60" />
+    <p>{$category_arr[$catid]['catname']}</p>
+</div>
+
+<div class="boxbg mtop10">
+    {$content}
+</div>
+
+{php $rel_field = $rel_case; }
+{template "content","case_study_rel"}
+
+{php $rel_field = $rel_product; }
+{template "content","related_products_rel"}
+
+<!-- content end-->
+{template "content","footer"}

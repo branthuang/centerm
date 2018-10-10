@@ -1,0 +1,95 @@
+{template "content","header"}
+{template "content","breadcrumb"}
+<!--container-->
+<div class="all_w mtop20">
+    <!--treelist-->
+    <div class="treelist">
+        <div class="case casemore mbottom40">
+            {php $where="1=1";}
+            {if $_GET['industry']}
+                {php $where .= " and by_industry = $_GET[industry]";}
+            {/if}
+            {if $_GET['case']}
+                {php $where .= " and by_use_case = $_GET[case]";}
+            {/if}
+            {pc:content action="lists" catid="$catid" num="100" where="$where"}
+            {if $data}
+            <table width="810" border="0" cellspacing="0" cellpadding="0">
+                <tbody>
+                    {php $i=0;}
+                    {loop $data $d}
+                        {php $i++;}
+                        {if $i%2 == 0}
+                                <td style="width:405px;height: 280px;">
+                                <a href="{$d['url']}">
+                                    <img src="{php echo thumb($d['thumb'],355,143);}" width="355" height="143" 
+                                         srcset="{$d['thumb']} 2x">
+                                    <p>{$d['title']}</p>
+                                </a>
+                                <p>{$d['description']}</p>
+                            </td>
+                        </tr>
+                        {else}
+                        <tr>
+                            <td style="width:405px;height: 280px;">
+                                <a href="{$d['url']}">
+                                    <img src="{php echo thumb($d['thumb'],355,143);}" width="355" height="143" 
+                                         srcset="{$d['thumb']} 2x">
+                                    <p>{$d['title']}</p>
+                                </a>
+                                <p>{$d['description']}</p>
+                            </td>
+                        {/if}
+                    {/loop}
+                    
+                    {if $i%2 != 0}
+                        <td style="width:405px;height: 280px;">&nbsp;</td></tr>
+                    {/if}
+                </tbody>
+            </table>
+            {else}
+            No Record Here!
+            {/if}
+            {/pc}
+        </div>
+    </div>
+    <!--end treelist-->
+    <!--leftree-->
+    <ul class="leftree">
+        {php $category = getcache("category_content_$siteid",'commons');}
+        {php $url = $category[21][url]}
+        <li><a href="{$url}">ALL</a></li>
+        <li class="toggler">
+            <a href="javascript:void(0);">By Industry</a>
+            <ul>
+                {php $industry = getcache(3904,'linkage');}
+                {loop $industry[data] $k $v}
+                <li><a href="{$url}/industry-{$k}/" {if $k==$_GET['industry']}class="tree-act active"{/if}>{$v['name']}</a></li>
+                {/loop}
+            </ul>
+        </li>
+        <li class="toggler">
+            <a href="javascript:void(0);">By Use Case</a>
+            <ul>
+                {php $case = getcache(3905,'linkage');}
+                {loop $case[data] $k $v}
+                <li><a href="{$url}/case-{$k}/"  {if $k==$_GET['case']}class="tree-act active"{/if}>{$v['name']}</a></li>
+                {/loop}
+            </ul>
+        </li>
+    </ul>
+    <!--end leftree-->
+    
+    <div class="clear"></div>
+</div>
+<!--end container-->
+
+<script type="text/javascript" src="{JS_PATH}jquery.treemenu.js"></script>
+<script>
+    $(function(){
+        $(".leftree").treemenu({delay:300}).openActive();
+    });
+</script>
+    
+    
+{template "content","footer"}

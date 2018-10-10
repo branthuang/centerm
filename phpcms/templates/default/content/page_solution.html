@@ -1,0 +1,74 @@
+{template "content","header"}
+{template "content","breadcrumb"}
+<!--container-->
+<div class="all_w mtop20">
+    <div class="pro-zhs">
+        <!-- 功能区-->
+        <!-- Tab panes -->
+        <div class="tab-content mbottom40">
+            <div role="tabpanel" class="tab-pane active solu-ul" id="all">
+                <ul class="mtop40">
+                    {pc:content action="category_not_menu" catid="8" modelid="19" num="100" siteid="$siteid" order="listorder ASC" return="data"}
+                        {php $i=0;}
+                        {loop $data $d}
+                            {php $i++;}
+                            
+                            {php $cid = $d['catid'];}
+                            {php $news = array(); }
+                            {pc:content action="lists" catid="$cid" num="30" return="news"}
+                                {php $news_num = count($news); }
+                            
+                        <li class='{if $i%3 != 1}mleft45{/if} 
+                            {if $i>=4 }mtop20{/if} '>
+                            <a {if $news_num == 0 }
+                                    href="javascript:void(0);" 
+                               {elseif $news_num == 1}
+                                    {php $first_news = current($news);}
+                                    href="{$first_news['url']}"
+                               {else}
+                                    href="###" data-toggle="modal" data-target="#mySolu{$i}"
+                               {/if}>
+                                <img src="{php echo $d['image']?thumb($d['image'],370,110):IMG_PATH.'pic/solu1.png';}" width="370" height="110" 
+                                     srcset="{php echo $d['image']?$d['image']:IMG_PATH.'pic/solu1@2x.png';} 2x" />
+                                <p class="h2">{$d['catname']}</p>
+                            </a>
+                            <p class="h5" style='height:50px;'>{php echo $d['description']?$d['description']:'&nbsp;'}</p>
+                        </li>
+                            {if $news_num>1}
+                                <!-- Modal -->
+                                <div class="modal fade" id="mySolu{$i}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                  <div class="modal-dialog">
+                                    <div class="modal-content">
+                                      <div class="modal-header head-size">
+                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                        <h3 id="myModalLabel">{$d['catname']}</h3>
+                                      </div>
+                                      <div class="modal-body">
+                                        <ul class='solution_news_list'>
+                                            {loop $news $new}
+                                            <li><a href="{$new['url']}">{$new['title']}</li>
+                                            {/loop}
+                                        </ul>
+                                        <div class="clear"></div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <!-- end Modal -->
+                            {/if}
+                            
+                            {/pc}
+                        {/loop}
+                    {/pc}
+                </ul>
+                <div class="clear"></div>
+            </div>
+            
+        </div>
+        <!-- end Tab panes -->
+        <!-- end 功能区-->
+    </div>
+
+</div>
+<!--end container-->
+{template "content","footer"}

@@ -1,0 +1,71 @@
+迁移原栏目events and news 9篇文章到新栏目newsroom
+
+
+truncate ct_news;
+truncate ct_news_data;
+
+insert into ct_news
+(
+id, catid, title, thumb, description, status, sysadd, username, inputtime, updatetime,typeid,url)
+select
+id, 13, title,img_url, seo_description, 99, 1, 'admin', UNIX_TIMESTAMP(add_time), UNIX_TIMESTAMP(update_time),0,0
+from centerm_en.dt_article
+where category_id = 1096;
+
+insert into ct_news_data
+(
+id, content,groupids_view ,paginationtype,maxcharperpage,template)
+select
+id, content,0,0,0,''
+from centerm_en.dt_article
+where category_id = 1096;
+
+产品
+truncate ct_products;
+truncate ct_products_data;
+
+insert into ct_products
+(id, catid, title, thumb, description, status, sysadd, username, inputtime, updatetime, product_des, product_type)
+select
+id, 7, title,img_url, seo_description, 99, 1, 'admin', UNIX_TIMESTAMP(add_time), UNIX_TIMESTAMP(update_time),zhaiyao,3903
+from centerm_en.dt_article
+where category_id = 57;
+
+insert into ct_products
+(id, catid, title, thumb, description, status, sysadd, username, inputtime, updatetime, product_des, product_type)
+select
+id, 7, title,img_url, seo_description, 99, 1, 'admin', UNIX_TIMESTAMP(add_time), UNIX_TIMESTAMP(update_time),zhaiyao,3902
+from centerm_en.dt_article
+where category_id = 58;
+
+insert into ct_products
+(id, catid, title, thumb, description, status, sysadd, username, inputtime, updatetime, product_des, product_type)
+select
+id, 7, title,img_url, seo_description, 99, 1, 'admin', UNIX_TIMESTAMP(add_time), UNIX_TIMESTAMP(update_time),zhaiyao,3898
+from centerm_en.dt_article
+where category_id = 55;
+
+insert into ct_products
+(id, catid, title, thumb, description, status, sysadd, username, inputtime, updatetime, product_des, product_type)
+select
+id, 7, title,img_url, seo_description, 99, 1, 'admin', UNIX_TIMESTAMP(add_time), UNIX_TIMESTAMP(update_time),zhaiyao,3899
+from centerm_en.dt_article
+where category_id = 56;
+
+insert into ct_products_data
+(
+id, content)
+select
+id, content
+from centerm_en.dt_article
+where category_id in (55,56,57,58);
+
+案例：
+TRUNCATE ct_case;
+truncate ct_case_data;
+insert into ct_case
+(id, catid, title, thumb, description, status, sysadd, username, inputtime, updatetime)
+select
+id, 21, title,img_url, zhaiyao, 99, 1, 'admin', UNIX_TIMESTAMP(add_time), UNIX_TIMESTAMP(update_time)
+from centerm_en.dt_article
+where category_id = 1090;

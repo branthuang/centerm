@@ -1,0 +1,151 @@
+{template "content","header"}
+<!--banner-->
+<div class="abanner"></div>
+<div class="bannerbtm">
+    <div class="banbtm-wrap">
+        <div class="banbtm-txt">
+            <P>{$title}</P>
+            <span>{$content}</span>
+        </div>
+        <div class="banbtm-line"></div>
+        <ul class="banbtm-ach">
+            {php $images = string2array(new_html_entity_decode($images));}
+            {php $i=0;}
+            {loop $images $img}
+            {php $i++;}
+            <li {if $i%3!=1}class="mleft60"{/if}>
+                <img src="{php thumb($img['url'],360,220)}" width="360" height="220" 
+                 srcset="{$img['url']} 2x">
+            </li>
+            {/loop}
+        </ul>
+        <div class="clear"></div>
+    </div>
+</div>
+<!--banner end-->
+
+<!--快捷入口-->
+<div class="all_w">
+    <!--TECH ALLIANCES-->
+    <div class="h3 tech-tit mtop60">TECH ALLIANCES</div>
+    <div class="piclist mtop20" id="piclist" style="clear:both">
+        <div class="piclist_m">
+            <ul>
+                <li>
+                    {pc:link action="lists" typeid="54"}
+                    <table width="1200" border="0" cellspacing="0" cellpadding="0" class="mtop20">
+                        <tbody>
+                            <tr>
+                                {php $k=0;}
+                                {loop $data $l}
+                                {php $k++;}
+                                <td onclick="window.open('{$l['url']}')" style="cursor: pointer;" title="{$l['name']}">
+                                    <img src="{php echo thumb($l['logo'],150,66);}" width='150' height='66' 
+                                         srcset="{$l['logo']} 2x"/></td>
+                                {/loop}
+                                    {if $k<8 }
+                                        {php for($i=0;$i<8-$k;$i++){ }
+                                        <td>&nbsp;</td>
+                                        {php } }
+                                    {/if}
+                            </tr>
+                            <tr>
+                                {php $k=0;}
+                                {loop $data $l}
+                                {php $k++;}
+                                <td  onclick="window.open('{$l['url']}')" style="cursor: pointer;" class="text-uppercase">{$l['name']}</td>
+                                {/loop}
+                                {if $k<8 }
+                                    {php for($i=0;$i<8-$k;$i++){ }
+                                    <td>&nbsp;</td>
+                                    {php } }
+                                {/if}
+                            </tr>
+                        </tbody>
+                    </table>
+                    {/pc}
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!--end TECH ALLIANCES-->
+
+</div>
+<!--end 快捷入口-->
+
+<div class="wrapper_w1600">
+    <!--CUSTOMERS-->
+    <div class="all_w">
+        {php $category = getcache("category_content_$siteid",'commons');}
+        {php $url= $category[21][url]}
+        <div class="h3 tech-tit mtop60">CUSTOMERS<a href="{$url}">Customers Success Stories ></a></div>
+        <div class="piclist mtop20" id="piclist" style="clear:both">
+            <div id="piclist_m" class="piclist_m">
+                <ul>
+                    {pc:link action="lists" typeid="55"}
+                    {php $data_d=array(); }
+                    {php $i = $j = 0; }
+                        {loop $data $d}
+                            {$i++}
+                            {if $i>7 }
+                                {php $j++;}
+                                {php $i=0;}
+                            {/if}
+                            {php $data_d[$j][] = $d;}
+                        {/loop}
+                        
+                    {loop $data_d $d1}    
+                    <li>
+                        <table width="1200" border="0" cellspacing="0" cellpadding="0" class="mtop20" class="abtd">
+                            <tbody>
+                                <tr>
+                                    {php $k=0; }
+                                    {loop $d1 $d2}
+                                    {php $k++;}
+                                    <td onclick="window.open('{$d2['url']}')" style="cursor: pointer;" title="{$d2['name']}">
+                                        <img src="{php echo thumb($d2['logo'],150,66)}" width='150' height='66' 
+                                             srcset='{$d2['logo']} 2x'/>
+                                        <p>{$d2['name']}</p>
+                                    </td>
+                                    {/loop}      
+                                    {if $k<8 }
+                                        {php for($i=0;$i<8-$k;$i++){ }
+                                        <td>&nbsp;</td>
+                                        {php } }
+                                    {/if}
+                                </tr>
+                            </tbody>
+                        </table>
+                    </li>
+                    {/loop}
+                    {/pc}
+                </ul>
+            </div>
+        </div> 
+    </div>
+    <a href="javascript:;" class="piclist_l" id="piclist_l" hidefocus="true" title="PRE"><b></b><span></span></a>
+    <a href="javascript:;" class="piclist_r" id="piclist_r" hidefocus="true" title="NEXT"><b></b><span></span></a>
+    <script type="text/javascript" src="{JS_PATH}/banner.js"></script>
+    <!--end CUSTOMERS-->
+</div>
+<div class="all_w">
+	<table border="0" cellspacing="0" cellpadding="0" width="100%" class="beclink">
+      <tbody>
+        <tr>
+          <td>
+          	<img src="{IMG_PATH}pic/Follow.png" width="86" height="86" srcset="{IMG_PATH}pic/Follow@2x.png 2x">
+            <p>Become Centerm Partner</p>
+            <a href="{$keylink['partner_login'][1]}" target="_blank">Sign up now ></a>
+          </td>
+          <td>
+          	<img src="{IMG_PATH}pic/Openbook.png" width="83" height="84" srcset="{IMG_PATH}pic/Openbook@2x.png 2x">
+            <p>Product List</p>
+            {php $category = getcache("category_content_$siteid",'commons');}
+            <a href="{$category[7][url]}">More here ></a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+</div>
+
+{template "content","footer"}

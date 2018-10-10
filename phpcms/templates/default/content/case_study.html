@@ -1,0 +1,22 @@
+<div class="case mbottom40 mtop60">
+    <div class="h3 orange"><a href="{$category[21][url]}" class="pro-more fr mtop10">more</a>Case Study</div>
+    {pc:content action="lists" num="3" catid="21" order="listorder desc, id desc"}
+    <table width="1200" border="0" cellspacing="0" cellpadding="0" class="mtop40">
+        <tbody>
+            <tr>
+                {loop $data $d}
+                <td>
+                    <a href="{$d['url']}">
+                        <img src="{php echo thumb($d['thumb'],355,143);}" width="355" height="143" 
+                             srcset="{$d['thumb']} 2x">
+                        <p>{$d['title']}</p>
+                    </a>
+                    <p>{$d['description']}</p>
+                </td>
+                {/loop}    
+            </tr>
+        </tbody>
+    </table>
+    {/pc}
+
+</div>

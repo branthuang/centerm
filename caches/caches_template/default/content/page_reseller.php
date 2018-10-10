@@ -1,0 +1,155 @@
+<?php defined('IN_PHPCMS') or exit('No permission resources.'); ?><?php include template("content","header"); ?>
+<?php include template("content","breadcrumb"); ?>
+<!--container-->
+<div class="container">
+	<!--rightbar-->
+    <div class="rightbar">
+    	<?php include template("content" , "subscribe"); ?>
+        <?php include template("content" , "headquarters"); ?>
+    </div>
+    
+    <!--end rightbar-->
+    <!--newslist-->
+    <div class="news pad-bottom form-bottom res">
+        <img src="<?php echo IMG_PATH;?>pic/re-bg.png" width="820" height="111" srcset="<?php echo IMG_PATH;?>pic/re-bg@2x.png 2x">
+        <form class="form-horizontal mleft80 mtop40" role="form">
+          <div class="form-group">
+            <label class="col-sm-3 control-label label-font"><font style="color:#ff0000">*</font> First Name</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control in-form res-form" placeholder="First Name" name="first_name" id="first_name"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-3 control-label label-font"><font style="color:#ff0000">*</font> Last Name</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control in-form res-form" placeholder="Last Name" name="last_name" id="last_name"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-3 control-label label-font"><font style="color:#ff0000">*</font> Company</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control in-form res-form" placeholder="Company" name="company" id="company"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-3 control-label label-font"><font style="color:#ff0000">*</font> Email</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control in-form res-form" placeholder="Email" name="email" id="email"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-3 control-label label-font"> Phone</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control in-form res-form" placeholder="Phone" name="phone" id="phone"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-3 control-label label-font"><font style="color:#ff0000">*</font> Country</label>
+            <div class="col-sm-9">
+                <?php pc_base::load_sys_class("form");?>
+                <?php echo form::select_with_func(3360, 'country','country','please select your country','state_slt', 'class="form-control in-form res-form"');?>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-3 control-label label-font"> State</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control in-form res-form" name="state" id="state_text" placeholder="State">
+            <?php echo form::select_with_func(3654, 'state_select','state_select','please select your state','','style="display:none;" class="form-control in-form res-form"');?>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-3 control-label label-font"><font style="color:#ff0000">*</font> I Am Interested In</label>
+            <div class="col-sm-9">
+                <?php echo form::select_with_func(3918, 'interested','interested','','', 'class="form-control in-form res-form"');?>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label class="col-sm-3 control-label label-font"> Comments / Questions</label>
+            <textarea class="form-control in-form res-form res-rows" rows="3" name="comments" id="comments"></textarea>
+          </div>
+        </form>
+        <button type="button" class="btn btn-form mtop20 mleft265" id="dosubmit">Submit</button>
+    </div>
+    <!--end newslist-->
+    <div class="clear"></div>
+</div>
+<!--end container-->
+<!-- Modal -->
+<div class="modal fade" id="myModal_contact" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="margin-top:200px">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header" style="border-bottom:none">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel"> </h4>
+      </div>
+      <div class="modal-body">
+        <div style="text-align:center;"><img src="<?php echo IMG_PATH;?>image/success.png" style="width:90px; height:90px" />
+            <h5 style="line-height:30px; font-size:18px; padding:20px">Your Message Has Sended Success</h5>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+    //state选择
+    function state_slt(key){
+        if(key == 3665){
+            //美国
+            $('#state_text').hide();
+            $('#state_select').show();            
+        }else{
+            $('#state_text').show();
+            $('#state_select').hide();
+        }
+    }
+    
+    $(function() {
+        $('#dosubmit').click(function() {
+            var first_name = $('#first_name').val();
+            var last_name = $('#last_name').val();
+            var company = $('#company').val();
+            var email = $('#email').val();
+            var phone = $('#phone').val();
+            var country = $('#country').val();
+            var state = $('#state_text').val();
+            var state_select = $('#state_select').val();
+            var interested = $('#interested').val();
+            var comments = $('#comments').val();
+            if(!first_name || !last_name || !company || !email || !country || !interested){
+                alert("Please Enter Necessary Infos!");
+                return false;
+            }
+            $.ajax({
+                type: "POST",
+                url: "index.php?m=contact&c=index&a=add_reseller",
+                data: "first_name=" + first_name 
+                        + "&last_name=" + last_name
+                        + "&company=" + company
+                        + "&email=" + email
+                        + "&phone=" + phone
+                        + "&country=" + country
+                        + "&state=" + state
+                        + "&state_select=" + state_select
+                        + "&interested=" + interested
+                        + "&comments=" + comments ,
+                success: function(msg) {
+                    if(msg == 1){
+                        $('#myModal_contact').modal("show")
+                    }else if(msg == 2){
+                        alert('Notice: Has Submitted');
+                    }else{
+                        alert(msg);
+                    }
+                }
+
+            });
+        });
+    });
+</script>
+<?php include template("content" , "global_office"); ?>
+<?php include template("content","footer"); ?>

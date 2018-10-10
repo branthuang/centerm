@@ -1,0 +1,17 @@
+<!--breadcrumb-->
+<div class="bg-gray">
+	<div class="all_w">
+    	<div class="crumb">
+            {php $category_arr = getcache('category_content_'.$siteid,'commons');}
+            {if isset($category_arr[$catid]) }
+        	<h1>{$category_arr[$catid]['catname']}</h1>
+            {/if}    
+            <ol class="breadcrumb">
+              <li><a href="{siteurl($siteid)}">HOME</a></li>
+              {catpos($catid)}
+            </ol>
+                
+        </div>
+    </div>
+</div>
+<!--breadcrumb end-->

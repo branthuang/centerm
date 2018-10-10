@@ -1,0 +1,15 @@
+<div class="boxbg mtop10">
+    <div class="h5_16 cred">Case Study<a href="{$category[21][url]}" style="float:right;">more</a></div>
+    {pc:content action="lists" num="3" catid="21" order="listorder desc, id desc"}
+    <ul class="ul_list_100">
+        {loop $data $d}
+        <li onclick="location.href='{$d['url']}'">
+            <img src="{php echo thumb($d['thumb'],355,143);}"  
+                 srcset="{$d['thumb']} 2x" width="355" height="143" />
+            <div class="h5_16">{$d['title']}</div>
+            {$d['description']}
+        </li>
+        {/loop}
+    </ul>
+    {/pc}
+</div>

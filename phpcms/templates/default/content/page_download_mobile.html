@@ -1,0 +1,144 @@
+{php $category = getcache("category_content_$siteid",'commons');}
+{php $url= $category[32][url]}
+{php $menu_type_search[0] =array('url' => $url, 'name' => 'All');}
+{php $p_types = getcache(3897,'linkage');}
+{php $p_types = $p_types['data'];}
+{php $i=0;}
+{loop $p_types $k $t}
+    {php $i++;}
+    {php $menu_type_search[$i] = array('url'=> $url.'/type-'.$k.'/', 'name' => $t['name'])}
+{/loop}
+{php $i++;}
+{php $menu_type_search[$i] = array('url'=> 'javascript:void(0);', 'name' => '[ Software ]')}
+{php $i++;}
+{php $menu_type_search[$i] = array('url'=> $url.'/soft/', 'name' => '&nbsp;&nbsp;&nbsp;-'.'Download')}
+{php $i++;}
+{php $menu_type_search[$i] = array('url'=> $url.'/manual/', 'name' => '&nbsp;&nbsp;&nbsp;-'.'User manual')}
+
+{template "content","header"}
+<!--breadcrumb-->
+{template "content","breadcrumb"}
+<!--breadcrumb end-->
+
+{if $_GET['soft']==1}
+    <div class="boxbg mtop10">
+        <div class="h5_16 cred">Software</div>
+        {pc:content action="lists" catid="23" num="1000" moreinfo="1" order="listorder desc, id desc"}
+            {if $data}
+                <table width="100%" class="table-three mtop20">
+                     <tbody>
+                         <tr>
+                             <th style="width:40%">Document Name</th>
+                             <th style="width:30%">Release Date</th>
+                             <th>Downloads</th>
+                         </tr>
+                         {loop $data $d}
+                         <tr>
+                             <td>{$d['title']}</td>
+                             <td>{php echo date('Y-m-d',$d['inputtime']);}</td>
+                             <td>
+                                 {php $document = json_decode($d['software'],true);}
+                                 {loop $document $doc}
+                                 <a href="{$doc['fileurl']}" title='{$doc['filename']}' download></a>
+                                 {/loop}
+                             </td>
+                         </tr>
+                         {/loop}
+                     </tbody>
+                 </table>
+            {else}
+                No Software here!
+            {/if}
+        {/pc}
+    </div>  
+{elseif $_GET['manual']==1}
+    <div class="boxbg mtop10">
+        <div class="h5_16 cred">User manual</div>
+        {pc:content action="lists" catid="34" num="1000" moreinfo="1" order="listorder desc, id desc"}
+            {if $data}
+                <table width="100%" class="table-three mtop20">
+                     <tbody>
+                         <tr>
+                             <th style="width:40%">Document Name</th>
+                             <th style="width:30%">Release Date</th>
+                             <th>Downloads</th>
+                         </tr>
+                         {loop $data $d}
+                         <tr>
+                             <td>{$d['title']}</td>
+                             <td>{php echo date('Y-m-d',$d['inputtime']);}</td>
+                             <td>
+                                 {php $document = json_decode($d['document'],true);}
+                                 {loop $document $doc}
+                                 <a href="{$doc['fileurl']}" title='{$doc['filename']}' download></a>
+                                 {/loop}
+                             </td>
+                         </tr>
+                         {/loop}
+                     </tbody>
+                 </table>
+            {else}
+                No User manual here!
+            {/if}
+        {/pc}
+    </div> 
+{else}
+    {if $_GET['type']}
+        {php $one[$_GET['type']] = $p_types[$_GET['type']];}
+        {php $p_types = $one;}
+    {else}
+        {php $p_types = getcache(3897,'linkage');}
+        {php $p_types = $p_types['data'];}
+    {/if}
+    {php $i=0;}
+    {loop $p_types $type}            
+        {php $where="type=".$type['linkageid'];}
+        {pc:content action="lists_doc" catid="22" where="$where" field="relation" num="1000" moreinfo="1"}
+            {if empty($data) && $_GET['type']}
+            Sorry. NO Documents Here!
+            {/if}
+            {if !empty($data)}
+                {php $i++;}
+
+                {php $t_data = array();}
+                {loop $data $d}
+                {php $t_data[$d['p_id']][] = $d;}
+                {/loop}
+                {loop $t_data $data}
+                <div class="boxbg mtop10">            
+                    <div class="h5_16 cred">
+                        {$type['name']} - 
+                        {$data[0]['p_name']}
+                    </div>            
+                    <table width="100%" class="table-three mtop20">
+                        <tbody>
+                            <tr>
+                                <th style="width:40%">Document Name</th>
+                                <th style="width:30%">Release Date</th>
+                                <th>Downloads</th>
+                            </tr>
+                            {loop $data $d}
+                            <tr>
+                                <td>{$d['title']}</td>
+                                <td>{php echo date('Y-m-d',$d['inputtime']);}</td>
+                                <td>
+                                    {php $document = json_decode($d['document'],true);}
+                                    {loop $document $doc}
+                                    <a href="{$doc['fileurl']}" title='{$doc['filename']}' download></a>
+                                    {/loop}
+                                </td>
+                            </tr>
+                            {/loop}
+                        </tbody>
+                    </table>            
+                </div>
+                {/loop}
+            {/if}
+           {/pc}    
+        {/loop}
+{/if}
+
+
+
+<!-- content end-->
+{template "content","footer"}

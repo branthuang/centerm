@@ -1,0 +1,144 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="{CSS_PATH}banner.css">
+<link rel="stylesheet" href="{CSS_PATH}bootstrap.css">
+<link rel="stylesheet" href="{CSS_PATH}base.css">
+<link rel="stylesheet" href="{CSS_PATH}nav.css">
+<link rel="stylesheet" href="{CSS_PATH}style.css">
+<script type="text/javascript" src="{JS_PATH}jquery-1.11.3.js"></script>
+<script type="text/javascript" src="{JS_PATH}bootstrap.js"></script>
+<script type="text/javascript" src="{JS_PATH}nav.js"></script>
+<script>$(document).ready(function($){$(".megamenu").megamenu();});</script>
+<title>{if isset($SEO['title']) && !empty($SEO['title'])}{$SEO['title']}{/if}{$SEO['site_title']}</title>
+<meta name="keywords" content="{$SEO['keyword']}">
+<meta name="description" content="{$SEO['description']}">
+</head>
+
+<body>
+<!--top-->
+<div class="top">  
+        <!-- nav -->
+        <div class="topnav ">
+          <ul class="megamenu skyblue">
+            <li class="logo"><a href="/"><img src="{IMG_PATH}image/logo.png" width="124" height="28" srcset="{IMG_PATH}image/logo@2x.png 2x"/></a></li>
+            
+            {pc:content action="category" catid="0" num="25" siteid="$siteid" order="listorder ASC"}
+                {loop $data $r}
+                <li>
+                    {php $top_parentid = $r['catid'];}
+                    {if $top_parentid == 7}                    
+                        <!--# 产品特殊处理 #-->
+                        <a href="{$r[url]}">{$r[catname]}</a>
+                        <div class="megapanel">
+                            <div class="all_w nav_product">
+                            {php $p_types = getcache(3897,'linkage');}
+                            {php $p_types = $p_types['data'];}
+                            <div class="tab-content">
+                                {php $i=0;}
+                                {loop $p_types $k $v}
+                                    {php $i++;}
+                                    {php $where = "product_type='$k'";}
+                                    <div role="tabpanel" class="tab-pane {if $i==1}active{/if}" id="a{$k}">
+                                        {pc:content action="lists" catid="$top_parentid" num="14" siteid="$siteid" where="$where" order="listorder desc,id desc" return="products_arr"}
+                                            {if !empty($products_arr)}
+                                            <ul>
+                                                {loop $products_arr $p}
+                                                {php $thumb = $p['thumb']?$p['thumb']:IMG_PATH.'no.jpg';}
+                                                <li onclick='location.href="{$p['url']}"'><img src="{thumb($thumb,100,100)}" width="100" height="100" srcset="{$thumb} 2x"/>{$p['title']}</li>
+                                                {/loop}
+                                            </ul>
+                                            {else}
+                                                No Products In {$v['name']}
+                                            {/if}
+                                        {/pc}
+                                    </div>
+                                {/loop}                              
+                            </div>
+                                
+                            <ul class="nav nav-tabs" role="tablist" id="myTab1">
+                                {php $i = 0;}
+                                {loop $p_types $k $v}
+                                    {php $i++;   }
+                                    <li role="presentation" {if $i==1}class="active"{/if}><a href="#a{$k}" role="tab" data-toggle="tab">{$v['name']}</a></li>
+                                {/loop}
+                            </ul>
+
+                            <script>
+                              $(function () {  
+                                $("#myTab1 a").mousemove(function (e) {  
+                                    $(this).tab('show');  
+                                }); 
+                              });  
+                            </script>
+                            </div>
+
+                        </div>
+                    {else}
+                        <!--#二级子菜单#-->
+                        {pc:content action="category" catid="$top_parentid" num="15" siteid="$siteid" order="listorder ASC" return="data2"}
+                            {if $data2}
+                                <a {if $top_parentid==8}href="{$r[url]}"{else}href="javascript:void(0);"{/if}>{$r[catname]}</a>
+                                <ul class="dropdown">
+                                    {loop $data2 $r2}
+                                    <li><a href="{$r2[url]}" {if $r2['type'] ==2}target='_blank'{/if}>{$r2[catname]}</a></li>
+                                    {/loop}
+                                </ul>
+                            {else}
+                                <a href="{$r[url]}">{$r[catname]}</a>
+                            {/if}
+                        {/pc}
+                    {/if}                    
+                </li>
+                {/loop}
+            {/pc}            
+            
+            {php $keylink = getcache('keylink', 'commons');}
+            <li class="right"><a href="#"><img src="{IMG_PATH}image/icon3.png" width="19" height="19" srcset="{IMG_PATH}image/icon3@2x.png 2x"/></a>
+              <ul class="dropdown" style="position:absolute; right:0px; width:120px; text-align:center">
+                {pc:link action="lists" typeid="64" siteid="$siteid" linktype="0" order="desc" num="10" return="dat"}
+                {loop $dat $d}
+                <li><a href="#" onclick='window.open("{$d['url']}")'>{$d['name']}</a></li>
+                {/loop}
+                {/pc}
+              </ul>
+            </li>
+            <li class="right">
+                <a href="javascript:void(0);" onclick='window.open("{$keylink['partner_login'][1]}")'>
+                    <img src="{IMG_PATH}image/icon2.png" width="19" height="19" srcset="{IMG_PATH}image/icon2@2x.png 2x"/>
+                </a>
+            </li>
+            <li class="right">
+                <a href="javascript:void(0);">
+                    <img src="{IMG_PATH}image/icon1.png" width="19" height="19" srcset="{IMG_PATH}image/icon1@2x.png 2x" />
+                </a>
+                <div class="dropdown input-group" style="position:absolute;right:100px;width:250px;text-align:center; padding:10px;">
+                    <div class="input-group">
+                    <input type="text" class="form-control" value="" name="search_txt" id="p_search_txt" placeholder="Product Name"/>
+                    <span class="input-group-addon" style="padding:0">
+                        <button class="btn btn-default" style="border:none; background:none" type="button" data-toggle="modal" data-target="#" id="product_search">Search</button>
+                    </span>
+                    </div
+                    
+                </div>
+                <script>
+                    $(function(){
+                        //products search
+                        $('#product_search').click(function(){
+                            var search_txt = $('#p_search_txt').val();                            
+                            if(!search_txt){
+                                $('#p_search_txt').focus()
+                            }
+                            {php $category = getcache("category_content_$siteid",'commons');}
+                            var p_url = "{$category[7][url]}";
+                            location.href = p_url + '/s-'+search_txt+'/';
+                        });
+                    });
+                </script>
+            </li>
+          </ul>
+        </div>
+        <!-- end nav -->
+</div>
+<!--top end-->

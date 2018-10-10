@@ -1,0 +1,65 @@
+{template "content","header"}
+<!-- content -->
+<!--breadcrumb-->
+{template "content","breadcrumb"}
+<!--breadcrumb end-->
+<!-- content -->
+
+<div class="boxbg mtop10">
+    <!-- Tab panes -->
+    <div class="tab-content" style="padding:15px 0 10px 0">
+        <div role="tabpanel" class="tab-pane tab-pane1 active">
+            <ul class="ul_list_100">
+                {pc:content action="category_not_menu" catid="8" modelid="19" num="100" siteid="$siteid" order="listorder ASC" return="data"}
+                {php $i=0;}
+                {loop $data $d}
+                {php $i++;}
+
+                {php $cid = $d['catid'];}
+                {php $news = array(); }
+                {pc:content action="lists" catid="$cid" num="30" return="news"}
+                {php $news_num = count($news); }
+                <li {if $news_num == 0 }
+                   {elseif $news_num == 1}
+                        {php $first_news = current($news);}
+                        onclick="location.href='{$first_news['url']}'"
+                   {else}
+                        data-toggle="modal" data-target="#mySolu{$i}"
+                   {/if}>
+                    <img src="{php echo $d['image']?thumb($d['image'],370,110):IMG_PATH.'pic/solu1.png';}" width="370" height="110" 
+                                     srcset="{php echo $d['image']?$d['image']:IMG_PATH.'pic/solu1@2x.png';} 2x" />
+                    <div class="h5_16 gray">{$d['catname']}</div>
+                    {php echo $d['description']?$d['description']:'&nbsp;'}
+                </li>
+                            {if $news_num>1}
+                                <!-- Modal -->
+                                <div class="modal fade" id="mySolu{$i}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                  <div class="modal-dialog" style='margin-top:80px;'>
+                                    <div class="modal-content">
+                                      <div class="modal-header head-size">
+                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                        <h3 id="myModalLabel">{$d['catname']}</h3>
+                                      </div>
+                                      <div class="modal-body">
+                                        <ul class='solution_news_list'>
+                                            {loop $news $new}
+                                            <li><a href="{$new['url']}">{$new['title']}</li>
+                                            {/loop}
+                                        </ul>
+                                        <div class="clear"></div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <!-- end Modal -->
+                            {/if}
+                {/pc}
+                {/loop}
+                {/pc}                
+            </ul>
+        </div>        
+    </div>
+    <!-- end Tab panes -->
+</div>    
+<!-- content end-->
+{template "content","footer"}

@@ -1,0 +1,46 @@
+{template "content","header"}
+<!--main-->
+<!--banner-->
+<div class="focus" id="focus" style="clear:both">
+    <div id="focus_m" class="focus_m">
+        <ul>
+            {pc:content action="lists" catid="31" num="5" order="listorder desc, id DESC"}
+            {loop $data $r}
+                <li class="li_1" style="background:url({$r['banner_img']}) center 0 no-repeat #f9f9f9;" 
+                    {if $r['url_link']}
+                    onclick="window.open('{$r['url_link']}')"
+                    {/if}>
+                    <a href="###" hidefocus="true"></a></li>
+            {/loop}
+            {/pc}
+        </ul>
+    </div>
+    <a href="javascript:;" class="focus_l" id="focus_l" hidefocus="true" title="Pre"><b></b><span></span></a>
+    <a href="javascript:;" class="focus_r" id="focus_r" hidefocus="true" title="Next"><b></b><span></span></a>
+</div>
+<script type="text/javascript" src="{JS_PATH}banner.js"></script>
+<!--banner end-->
+
+<!--快捷入口-->
+<div class="all_w">
+    <ul class="text_list clear">
+        {php $category = getcache("category_content_$siteid",'commons');}
+        {php $cat_product = $category['7']}
+        <li>
+            <img src="{IMG_PATH}image/icon-1.png" width="101" height="66" srcset="{IMG_PATH}image/icon-1@2x.png 2x" onclick='location.href="{$cat_product['url']}"' style="cursor:pointer;" />
+            <h5>Product</h5>{$cat_product['description']}
+        </li>
+        {php $cat_solution = $category['8']}
+        <li>
+            <img src="{IMG_PATH}image/icon-2.png" width="100" height="64" srcset="{IMG_PATH}image/icon-2@2x.png 2x" onclick='location.href="{$cat_solution['url']}"' style="cursor:pointer;" />
+            <h5>Solution</h5>{$cat_solution['description']}
+        </li>
+        {php $cat_resellers = $category['27']}
+        <li>
+            <img src="{IMG_PATH}image/icon-3.png" width="85" height="64" srcset="{IMG_PATH}image/icon-3@2x.png 2x" onclick='location.href="{$cat_resellers['url']}"' style="cursor:pointer;" />
+            <h5>Resellers</h5>{$cat_resellers['description']}
+        </li>
+    </ul>
+</div>
+<!--end 快捷入口-->
+{template "content","footer"}

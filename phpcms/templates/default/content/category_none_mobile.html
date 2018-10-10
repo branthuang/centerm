@@ -1,0 +1,6 @@
+{pc:content action="category" catid="$catid" num="1" siteid="$siteid" order="listorder ASC" return="data"}
+    {loop $data $d}
+        {php $url = $d[url];}
+        {php header("location:".$url);exit;}
+    {/loop}
+{/pc}

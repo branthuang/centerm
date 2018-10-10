@@ -1,0 +1,108 @@
+<?php
+return array (
+  'title' => '年份',
+  'style' => '0',
+  'siteid' => '0',
+  'data' => 
+  array (
+    3928 => 
+    array (
+      'linkageid' => '3928',
+      'name' => '2017',
+      'style' => '',
+      'parentid' => '0',
+      'child' => '0',
+      'arrchildid' => '3928',
+      'keyid' => '3921',
+      'listorder' => '7',
+      'description' => '',
+      'setting' => NULL,
+      'siteid' => '0',
+    ),
+    3927 => 
+    array (
+      'linkageid' => '3927',
+      'name' => '2016',
+      'style' => '',
+      'parentid' => '0',
+      'child' => '0',
+      'arrchildid' => '3927',
+      'keyid' => '3921',
+      'listorder' => '6',
+      'description' => '',
+      'setting' => NULL,
+      'siteid' => '0',
+    ),
+    3926 => 
+    array (
+      'linkageid' => '3926',
+      'name' => '2015',
+      'style' => '',
+      'parentid' => '0',
+      'child' => '0',
+      'arrchildid' => '3926',
+      'keyid' => '3921',
+      'listorder' => '5',
+      'description' => '',
+      'setting' => NULL,
+      'siteid' => '0',
+    ),
+    3925 => 
+    array (
+      'linkageid' => '3925',
+      'name' => '2014',
+      'style' => '',
+      'parentid' => '0',
+      'child' => '0',
+      'arrchildid' => '3925',
+      'keyid' => '3921',
+      'listorder' => '4',
+      'description' => '',
+      'setting' => NULL,
+      'siteid' => '0',
+    ),
+    3924 => 
+    array (
+      'linkageid' => '3924',
+      'name' => '2013',
+      'style' => '',
+      'parentid' => '0',
+      'child' => '0',
+      'arrchildid' => '3924',
+      'keyid' => '3921',
+      'listorder' => '3',
+      'description' => '',
+      'setting' => NULL,
+      'siteid' => '0',
+    ),
+    3923 => 
+    array (
+      'linkageid' => '3923',
+      'name' => '2012',
+      'style' => '',
+      'parentid' => '0',
+      'child' => '0',
+      'arrchildid' => '3923',
+      'keyid' => '3921',
+      'listorder' => '2',
+      'description' => '',
+      'setting' => NULL,
+      'siteid' => '0',
+    ),
+    3922 => 
+    array (
+      'linkageid' => '3922',
+      'name' => '2011',
+      'style' => '',
+      'parentid' => '0',
+      'child' => '0',
+      'arrchildid' => '3922',
+      'keyid' => '3921',
+      'listorder' => '1',
+      'description' => '',
+      'setting' => NULL,
+      'siteid' => '0',
+    ),
+  ),
+);
+?>

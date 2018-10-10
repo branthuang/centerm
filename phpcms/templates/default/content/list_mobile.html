@@ -1,0 +1,86 @@
+{template "content","header"}
+<!-- content -->
+<!--breadcrumb-->
+{template "content","breadcrumb"}
+<!--breadcrumb end-->
+<div class="boxbg">
+    <!--newslist-->
+    {php $where = "1=1";}
+    <!--#搜索#-->
+    {if $_GET['search_txt']}
+        {php $where .= " and title like = '%".$_GET['search_txt']."%'";}
+    {/if}
+    <!--#新闻分类#-->
+    {if $_GET['typesid']}
+        {php $typesid = $_GET['typesid'];}
+    {/if}
+    {pc:content action="lists" catid="$catid" typesid="$typesid" moreinfo="1" num="5" order="id DESC" page="$page"}
+    <ul class="newslist">
+        {loop $data $r}
+        <li>
+            <h3 class="newstit">{$r[title]}</h3>
+            <h5 class="newsdate">{date('F d, Y',$r[inputtime])}</h5>
+            <div class="newscont">
+                <div class="newstxt">
+                    <div class="newstxt_img"><img src="{php echo $r['thumb']?thumb($r['thumb'],195,195):(IMG_PATH.'nopic_small.gif')}"></div>
+                    <span>{php $content = str_cut(strip_tags($r['content']),300)}
+                        {nl2br($content)}<br></span>
+                    <a href="{$r['url']}">Read More →</a>
+                </div>
+            </div>
+            <div class="tabar">
+                <div class="tabcont mtop10">
+                    <div class="tabtit">Categories</div>
+                    {php $str=""; }
+                    {php $where="news_key = '".$r['categories']."'";}
+                    {pc:content action="tags" where="$where" return="tags"}
+                    {if $tags}
+                    {loop $tags $t}
+                    {if $str}
+                    {php $str .= ','."<span>".$t['name']."</span>";}
+                    {else}
+                    {php $str = "<span>".$t['name']."</span>";}
+                    {/if}
+                    {/loop}
+                    {/if}
+                    {/pc}
+                    {php echo $str;}
+                </div>
+                <div class="tabcont mtop10">
+                    <div class="tabtit">Tags</div>
+                    <span>Lenovo</span>,<span>Press Release</span>,<span>Thin Clients</span
+                    {php $str=""; }
+                    {php $where="news_key = '".$r['tags']."'";}
+                    {pc:content action="tags" where="$where" return="tags"}
+                    {if $tags}
+                    {loop $tags $t}                                
+                        {if $str}
+                        {php $str .= ','."<span>".$t['name']."</span>";}
+                        {else}
+                        {php $str = "<span>".$t['name']."</span>";}
+                        {/if}
+                    {/loop}
+                    {/if}
+                    {/pc}
+                    {php echo $str;}
+                </div>
+            </div>
+        </li>   
+        {/loop}
+    </ul>
+    {/pc}
+</div>
+
+<nav class="pagination_box boxbg">
+    <ul class="pagination">
+        {$ct_pages}
+    </ul>
+</nav>
+
+<!--rightbar-->
+{template "content","subscribe"}
+{template "content","news_types"}
+<!--end rightbar-->    
+
+<!-- content end-->
+{template "content","footer"}

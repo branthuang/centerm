@@ -1,0 +1,89 @@
+{template "content","header"}
+<!--pro-banner-->
+<div class="pro-banner all_w mtop20 mbottom20"><script language="javascript" src="{APP_PATH}index.php?m=poster&c=index&a=show_poster&id=11"></script></div>
+<!--pro-banner end-->
+
+<!--container-->
+<div class="mtop20 all_w mbottom20">
+    <!--treelist-->
+    <div class="treelist" id="product_list">
+        <!--product list-->
+        {php $p_type = getcache('3897','linkage');}
+        
+        {if $_GET['search_txt']}
+            {php $where = " title like '%".$_GET['search_txt']."%'";}
+            {pc:content action="lists" catid="$catid" where="$where"  num="1000" order="listorder desc, id DESC" page="1"}
+                {if !empty($data)}
+                <div class="pro-list {if $i!=1 } mtop20{/if}" >
+                    <div class="listit h3">WE FOUND THIS</div>
+                    <ul>
+                        {loop $data $r}
+                        <li onclick='location.href="{$r['url']}/{$r['title']}/"'>
+                            <img src="{php echo $r['thumb']?thumb($r['thumb'],270,270):(IMG_PATH.'nopic_small.gif')}" width="270" height="270" 
+                                srcset="{php echo $r['thumb']?$r['thumb']:(IMG_PATH.'nopic_small.gif')} 2x">
+                            <span>{$r['title']}</span>
+                            <p>{$r['product_des']}</p>
+                            <a href="{$r['url']}/{$r['title']}/">More > </a>
+                        </li>                        
+                        {/loop}
+                    </ul>
+                </div>
+                {else}
+                    Sorry, Not Fount Anything
+                {/if}
+            {/pc}
+        {else}
+            
+            {if $_GET['product_type']}
+                {php $type_arr[$_GET['product_type']] = $p_type['data'][$_GET['product_type']];}
+            {else}
+                {php $type_arr = $p_type['data'];}
+            {/if}
+
+            {php $i=0; }
+            {loop $type_arr $k $t}
+                {php $where="product_type=".$k ;}
+                {pc:content action="lists" catid="$catid" where="$where"  num="1000" order="listorder desc, id DESC" page="1"}
+                    {if !empty($data)}
+                    <div class="pro-list {if $i!=1 } mtop20{/if}" >
+                        <div class="listit h3">{$t['name']}</div>
+                        <ul>
+                            {loop $data $r}
+                            <li onclick='location.href="{$r['url']}/{$r['title']}/"'>
+                                <img src="{php echo $r['thumb']?thumb($r['thumb'],270,270):(IMG_PATH.'nopic_small.gif')}" width="270" height="270" 
+                                    srcset="{php echo $r['thumb']?$r['thumb']:(IMG_PATH.'nopic_small.gif')} 2x">
+                                <span>{$r['title']}</span>
+                                <p>{$r['product_des']}</p>
+                                <a href="{$r['url']}/{$r['title']}/">More > </a>
+                            </li>                        
+                            {/loop}
+                        </ul>
+                    </div>
+
+                    {/if}
+                {/pc}
+                {php $i++;}
+
+            {/loop}
+        
+        {/if}
+        
+        
+        <!--end product list-->
+    </div>
+    <!--end treelist-->
+    <!--leftree-->
+    {php $category = getcache("category_content_$siteid",'commons');}
+    {php $url = $category[7][url]}
+    <ul class="leftree">        
+        <li><a href="{$url}#product_list" {if !$_GET['product_type']}class="tree-act"{/if}>ALL</a></li>
+        {loop $p_type[data] $k $t}
+        <li><a href="{$url}/{$k}/#product_list"{if $k==$_GET['product_type']}class="tree-act"{/if}>{$t['name']}</a></li>
+        {/loop}
+    </ul>
+    <!--end leftree-->
+
+    <div class="clear"></div>
+</div>
+<!--end container-->
+{template "content","footer"}

@@ -1,0 +1,23 @@
+{php $category = getcache("category_content_$siteid",'commons');}
+<div class="boxbg mtop10">
+    <div class="h5_16 gray">Categories</div>
+    <ul class="ul_f_l clear">
+        {php $where = "type=1";}
+        {pc:content action="news_types" where="$where"}
+        {loop $data $type}
+        <li style='cursor: pointer;{if $type['id'] == $_GET['typesid']}font-weight: bold;{/if}' onclick='location.href="{$category[13][url]}/{$type['id']}/"'>{$type['name']} (<span>{$type['num']}</span> )</li>
+        {/loop}
+        {/pc}
+    </ul>
+</div> 
+<div class="boxbg mtop10">
+    <div class="h5_16 gray">Tags</div>
+    <ul class="ul_f_l_a clear">
+        {php $where = "type=2";}
+        {pc:content action="news_types" where="$where"}
+            {loop $data $type}
+        <li style='cursor: pointer;{if $type['id'] == $_GET['typesid']}font-weight: bold;{/if}'><a href="{$category[13][url]}/{$type['id']}/">{$type['name']}</a></li>
+            {/loop}
+        {/pc}
+    </ul>
+</div>  

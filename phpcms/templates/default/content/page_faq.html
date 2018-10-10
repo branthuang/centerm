@@ -1,0 +1,125 @@
+{template "content","header"}
+{template "content","breadcrumb"}
+
+<script type="text/javascript" src="{JS_PATH}jquery.treemenu.js"></script>
+<script>$(document).ready(function(){$(".megamenu").megamenu();});</script>
+<script>$(function(){$(".leftree").treemenu({delay:300}).openActive();});</script>
+<script>$('.collapse').collapse()</script>
+
+{php $category = getcache("category_content_$siteid",'commons');}
+{php $url= $category[30][url]}
+<!--container-->
+<div class="all_w mtop20">
+    <!--treelist-->
+    <div class="treelist mtop20">
+        <div class="faq-search">
+            <div class="input-group mbottom20" style="width:40%; float:right">
+                <input type="text" class="form-control" placeholder="search" id="search_txt" value="{$_GET[search_txt]}">
+                <span class="input-group-addon" style="padding:0">
+                    <button class="btn btn-default" style="border:none; background:none" type="button" onclick="search()">Search</button></span>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <script>
+           function search(){
+               var search_txt = $('#search_txt').val();
+               if(search_txt){
+                   location.href="{$url}"+"/s-"+search_txt+"/";
+               }else{
+                   location.href="{$url}";
+               }
+           }
+        </script>
+        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+            
+            {php $where="1=1 ";}
+            {if $_GET['search_txt']}
+                {php $where .= " and title like '%".$_GET['search_txt']."%' ";}
+            {/if}
+            {if $_GET['product_id']}
+                {php $where .= " and rel_product_id = ". intval($_GET['product_id']);}
+            {/if}
+            {if $_GET['faq_type']}
+                {php $where .= " and rel_faq_type = ". intval($_GET['faq_type']);}
+            {/if}
+            
+            {pc:faq action="lists" where="$where" num="20" page="$page"}
+            {if $data}
+            
+            {php $i=0;}
+            {loop $data $d}
+                {php $i++;}
+                {if $i>1}
+                    <div class="faq-line"></div>
+                {/if}
+            <div class="panel panel-faq">
+                <div class="panel-heading" role="tab">
+                    <h4 class="panel-title" id="panel-title{$i}">
+                        <a role="button" data-toggle="collapse" href="#collapse{$i}">
+                            {$d['title']}
+                            <div  id="panel-title{$i}-child" class="fx {if $i==1}act_fx{/if}"></div>                   
+                        </a>
+                    </h4>
+                     <div class="clear"></div>
+                </div>
+                <div id="collapse{$i}" class="panel-collapse collapse {if $i==1}in{/if}">
+                    <div class="panel-body">
+                        {php echo ereg_replace("\n", "<BR>\n", $d['content']);}
+                    </div>
+                </div>
+            </div>
+            {/loop}            
+            <nav class="mtop40" style="margin: 40px auto; text-align:center">
+                <ul class="pagination">
+                    {$ct_pages}
+                </ul>
+            </nav>
+            {else}
+            NO RECORD HERE!
+            {/if}
+            {/pc}
+
+        </div>
+    </div>
+    <!--end treelist-->
+    
+    <!--leftree-->
+    <ul class="leftree mbottom40">
+        <li><a href="{$url}" {if !$_GET['product_id'] && !$_GET['faq_type']}class="tree-act"{/if}>ALL</a></li>
+        {php $p_types = getcache(3897,'linkage');}
+        {php $p_types = $p_types['data'];}
+        {loop $p_types $k $t}                    
+        <li class="toggler">
+            <a href="#">{$t['name']}</a>
+            {php $where = "product_type='$k'";}
+            {pc:content action="lists" catid="7" where="$where" order="listorder desc,id desc"}
+            <ul>
+                {loop $data $d}
+                <li><a href="{$url}/p-{$d['id']}/" {if $_GET['product_id']==$d['id']}class="tree-act active"{/if}>{$d['title']}</a></li>
+                {/loop}
+            </ul>
+            {/pc}
+        </li>
+        {/loop}
+        
+        {php $p_types = getcache(3933,'linkage');}
+        {php $p_types = $p_types['data'];}
+        {loop $p_types $k $t}  
+        <li><a href="{$url}/f-{$t['linkageid']}/" {if $_GET['faq_type']==$k}class="tree-act"{/if}>{$t['name']}</a></li>
+        {/loop}
+        
+        {template "content","partner_login"}
+    </ul>
+    <!--end leftree-->
+
+    <div class="clear"></div>
+</div>
+<script>
+    $(function(){
+        $('.panel-title').click(function(){
+            $("#"+this.id+"-child").toggleClass("act_fx"); 
+        });
+    });
+</script>
+<!--end container-->
+{template "content","footer"}

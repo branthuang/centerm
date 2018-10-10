@@ -1,0 +1,266 @@
+{template "content","header"}
+{template "content","breadcrumb"}
+
+<!--container-->
+<div class="all_w mtop20">
+    <div class="pro-zhs">
+        <!--图片及介绍-->
+        <div class="pro-imgs">
+            {php $f = $product_images[0];}
+            <div class="pro-img"><img src="{php echo thumb($f['url'],500,500);}" width="500" height="500" 
+                                      srcset="{$f['url']} 2x"></div>
+            <a href="#" class="pro-imgbox" data-toggle="modal" data-target="#myModal">
+                <img src="{php echo thumb($f['url'],100,100);}" width="100" height="100" 
+                     srcset="{php echo thumb($f['url'],200,200);} 2x">
+                <p>Image Gallery</p>
+            </a>
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header head-size">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                            <h3 id="myModalLabel">{$title}</h3>
+                        </div>
+                        <div class="modal-body">
+                            <!-- 轮播 -->
+                            <div class="ban" id="demo1">
+                                <div class="ban2" id="ban_pic1">
+                                    <div class="prev1" id="prev1"><img src="{IMG_PATH}image/index_tab_l.png" width="28" height="51"  alt=""></div>
+                                    <div class="next1" id="next1"><img src="{IMG_PATH}image/index_tab_r.png" width="28" height="51"  alt=""></div>
+                                    <ul>
+                                        {loop $product_images $p_img}
+                                        <li><a href="javascript:;"><img src="{php echo thumb($p_img['url'],500,500)}" width="500" height="500" 
+                                                                        alt="{$p_img['alt']}"
+                                                                        srcset="{$p_img['url']} 2x"></a>
+                                        </li>
+                                        {/loop}
+                                    </ul>
+                                </div>
+                                <div class="min_pic">
+                                    <div class="prev_btn1" id="prev_btn1"><img src="{IMG_PATH}image/feel3.png" width="9" height="18"  alt=""></div>
+                                    <div class="num clearfix" id="ban_num1">
+                                        <ul>
+                                            {loop $product_images $p_img}
+                                            <li><a href="javascript:;"><img src="{php echo thumb($p_img['url'],80,80)}" width="80" height="80" 
+                                                                            alt="{$p_img['alt']}"
+                                                                            srcset="{$p_img['url']} 2x"></a>
+                                            </li>
+                                            {/loop}
+                                        </ul>
+                                    </div>
+                                    <div class="next_btn1" id="next_btn1"><img src="{IMG_PATH}image/feel4.png" width="9" height="18"  alt=""></div>
+                                </div>
+                            </div>
+                            <div class="mhc"></div>
+                            <div class="pop_up" id="demo2">
+                                <div class="pop_up_xx"><img src="{IMG_PATH}image/chacha3.png" width="40" height="40"  alt=""></div>
+                                <div class="pop_up2" id="ban_pic2">
+                                    <div class="prev1" id="prev2"><img src="{IMG_PATH}image/index_tab_l.png" width="28" height="51"  alt=""></div>
+                                    <div class="next1" id="next2"><img src="{IMG_PATH}image/index_tab_r.png" width="28" height="51"  alt=""></div>
+                                    <ul>
+                                        {loop $product_images $p_img}
+                                        <li><a href="javascript:;"><img src="{php echo thumb($p_img['url'],500,500)}" width="500" height="500" 
+                                                                        alt="{$p_img['alt']}"
+                                                                        srcset="{$p_img['url']} 2x"></a>
+                                        </li>
+                                        {/loop}
+                                    </ul>
+                                </div>
+                            </div>
+                            <script src="{JS_PATH}pic_tab.js"></script>
+                            <script type="text/javascript">
+                                $('#demo1').banqh({
+                                    box: "#demo1", //总框架
+                                    pic: "#ban_pic1", //大图框架
+                                    pnum: "#ban_num1", //小图框架
+                                    prev_btn: "#prev_btn1", //小图左箭头
+                                    next_btn: "#next_btn1", //小图右箭头
+                                    pop_prev: "#prev2", //弹出框左箭头
+                                    pop_next: "#next2", //弹出框右箭头
+                                    prev: "#prev1", //大图左箭头
+                                    next: "#next1", //大图右箭头
+                                    pop_div: "#demo2", //弹出框框架
+                                    pop_pic: "#ban_pic2", //弹出框图片框架
+                                    pop_xx: ".pop_up_xx", //关闭弹出框按钮
+                                    mhc: ".mhc", //朦灰层
+                                    autoplay: true, //是否自动播放
+                                    interTime: 5000, //图片自动切换间隔
+                                    delayTime: 400, //切换一张图片时间
+                                    pop_delayTime: 400, //弹出框切换一张图片时间
+                                    order: 0, //当前显示的图片（从0开始）
+                                    picdire: true, //大图滚动方向（true为水平方向滚动）
+                                    mindire: true, //小图滚动方向（true为水平方向滚动）
+                                    min_picnum: 5, //小图显示数量
+                                    pop_up: true//大图是否有弹出框
+                                })
+                            </script>
+                            <!-- end 轮播 -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end Modal -->
+        </div>
+        <div class="pro-txt mtop80">
+            <div class="h1">{$title}</div>
+            <p class="mtop80">{$description}</p>
+            {php $category = getcache("category_content_$siteid",'commons');}
+            <button type="button" class="btn btn-pro mtop80" onclick='window.open("{$category[11][url]}")'>Request more info</button>
+        </div>
+        <!--end 图片及介绍-->
+        <div class="clear"></div>
+        <!-- 功能区-->
+        <!-- Nav tabs -->
+        <ul class="nav pro-tab mtop40 mbottom20" role="tablist">
+            <li role="presentation" class="active"><a href="#Specifications" role="tab" data-toggle="tab">Specifications</a></li>
+            <li role="presentation"><a href="#Features" role="tab" data-toggle="tab">Features</a></li>
+            <li role="presentation"><a href="#Download" role="tab" data-toggle="tab">Download</a></li>
+        </ul>
+        <!-- end Nav tabs -->
+        <!-- Tab panes -->
+        <div class="tab-content mbottom40">
+            <div role="tabpanel" class="tab-pane tab-pane1 active" id="Specifications">
+                {php $spec = explode(PHP_EOL,$specifications);}
+                {if !empty($spec)}
+                <table width="1200" border="0" cellspacing="2" cellpadding="2">
+                    <tbody>
+                        {loop $spec $data}
+                            {php $data_arr = explode('||',$data);}
+                        <tr>
+                            <th>{$data_arr[0]}</th>
+                            <td width="30"><img src="{IMG_PATH}pic/dian.png" srcset="{IMG_PATH}pic/dian@2x.png 2x"></td>
+                            <td>
+                                {php $d_val = $data_arr[1];}
+                                {php $d_val_arr = explode('^#^',$d_val)}
+                                {loop $d_val_arr $v_data}
+                                {$v_data}<br/>
+                                {/loop}
+                            </td>
+                        </tr>
+                        {/loop}                        
+                    </tbody>
+                </table>
+                {else}
+                    {$specifications}
+                {/if}
+            </div>
+            <div role="tabpanel" class="tab-pane tab-pane2" id="Features">
+                {$content}
+            </div>
+            <div role="tabpanel" class="tab-pane tab-pane3" id="Download">
+                <ul>
+                    <li>
+                        <p>Document</p>
+                        {if $relation}
+                            {php $relation_arr = explode('|',$relation);}
+                            {loop $relation_arr $rel}
+                                {if $rel}
+                                {php $tmp[] = $rel;}
+                                {/if}
+                            {/loop}
+                            
+                            {if !empty($tmp)}
+                                {php $tmp = implode(',',$tmp);}
+                                {php $where = " id in ($tmp) ";}
+                                {pc:content action="lists" catid="22" where="$where" num="8" moreinfo="1"}
+                                    <table width="360" border="0" cellspacing="0" cellpadding="0" class="mtop10" >
+                                        <tbody>
+                                            {loop $data $d}
+                                            {php $docs = json_decode($d['document'],true);}
+                                            {loop $docs  $doc}
+                                            <tr>
+                                                <td><a href="{$doc[fileurl]}" download><img src="{IMG_PATH}pic/pdf.png" width="30" height="30" srcset="{IMG_PATH}pic/pdf@2x.png 2x" 
+                                                                     style="vertical-align:middle;margin-right:20px">{$d['title']}</a></td>
+                                            </tr>
+                                            {/loop}
+                                            {/loop}
+                                        </tbody>
+                                    </table>
+                                {/pc}
+                            {/if}
+                        {else}
+                        No Relative Documents Here!
+                        {/if}
+                        
+                    </li>
+                    <li class="software">
+                        <p>Software</p>
+                        {if $rel_software}
+                            {php $relation_arr = explode('|',$rel_software);}
+                            {php $tmp = array();}
+                            {loop $relation_arr $rel}
+                                {if $rel}
+                                {php $tmp[] = $rel;}
+                                {/if}
+                            {/loop}
+                            
+                            {if !empty($tmp)}
+                                {php $tmp = implode(',',$tmp);}
+                                {php $where = " id in ($tmp) ";}
+                                {pc:content action="lists" catid="23" where="$where" num="9" moreinfo="1"}
+                                
+                                    <ul style='width:360px; float:left; font-weight: normal' class='mtop10'>
+                                        {php $i=0;}
+                                            {loop $data $d}
+                                            {php $software = json_decode($d['software'],true);}                                            
+                                            {loop $software  $s}
+                                                {php $i++;}
+                                            <li style="width:100px; text-align: center;" {if $i>3}class='mtop25'{/if}>
+                                                <a href="{$s[fileurl]}" download>
+                                                    <img src="{php echo thumb($d['thumb'],50,50);}" 
+                                                                             width="50" height="50" srcset="{$d['thumb']} 2x">
+                                                    <p style="font-weight: normal">{$d['title']}</p>
+                                                </a>
+                                            </li>
+                                            {/loop}
+                                            {/loop}
+                                    </ul>
+                                {/pc}
+                            {/if}
+                        {else}
+                        No Relative Documents Here!
+                        {/if} 
+                    </li>
+                    <li>
+                        {php $license = $rs['license'];}
+                        {php $l_link_arr = getcache('3936','linkage');}
+                        {php $l_link_arr = $l_link_arr['data'];}
+                        {php $l_url = $l_link_arr[$license]['description']; }
+                        {if $l_url}
+                        <p>Link</p>
+                        <table width="360" border="0" cellspacing="0" cellpadding="0" class="mtop10">
+                            <tbody>
+                                <tr>
+                                    <td><a href="javascript:void(0);" onclick='window.open("{$l_url}")' style="color:#ff5014; font-size:14px">
+                                            <img src="{IMG_PATH}pic/link.png" width="22" height="23" srcset="{IMG_PATH}pic/link@2x.png 2x" 
+                                                 style="vertical-align:middle;margin:0 15px;">License activate online</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        {/if}
+                    </li>
+                </ul>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <!-- end Tab panes -->
+        <!-- end 功能区-->
+        
+        <!-- Case Study-->
+        {php $rel_field = $rel_case; }
+        {template "content","case_study_rel"}
+        <!-- end Case Study-->
+        
+        <!-- Related-->
+        {php $rel_field = $rel_product; }
+        {template "content","related_products_rel"}
+        <!-- end Related-->
+    </div>
+
+</div>
+<!--end container-->
+{template "content","partner_login_footer"}
+
+{template "content","footer"}

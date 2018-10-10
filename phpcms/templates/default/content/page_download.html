@@ -1,0 +1,162 @@
+{template "content","header"}
+{template "content","breadcrumb"}
+<!--container-->
+<div class="all_w mtop20">
+    <!--treelist-->
+    <div class="treelist">
+        {php $p_types = getcache(3897,'linkage');}
+        {php $p_types = $p_types['data'];}
+
+        {if $_GET['soft']==1}
+        <!--#soft list #-->
+        {pc:content action="lists" catid="23" num="1000" moreinfo="1" order="listorder desc, id desc"}        
+            <div class="listfl">            
+                <div class="listit h3">Software</div>            
+                {if $data}
+                <table width="100%" border="0" cellspacing="5" cellpadding="0" class="table-three mtop10">
+                    <tbody>
+                        <tr>
+                            <th style="width:40%">Software Name</th>
+                            <th style="width:30%">Release Date</th>
+                            <th>Downloads</th>
+                        </tr>
+                        {loop $data $d}
+                        <tr>
+                            <td>{$d['title']}</td>
+                            <td>{php echo date('Y-m-d',$d['inputtime']);}</td>
+                            <td>
+                                {php $software = json_decode($d['software'],true);}
+                                {loop $software $d}
+                                <a href="{$d['fileurl']}" title='{$d['filename']}' download></a>
+                                {/loop}
+                            </td>
+                        </tr>
+                        {/loop}                        
+                    </tbody>
+                </table>
+                {else}
+                No Software Here!
+                {/if}              
+            </div>
+        {/pc}
+        {elseif $_GET['manual']==1}
+            {pc:content action="lists" catid="34" num="1000" moreinfo="1" order="listorder desc, id desc"}  
+            <div class="listfl">            
+                <div class="listit h3">User manual</div>            
+                {if $data}
+                <table width="100%" border="0" cellspacing="5" cellpadding="0" class="table-three mtop10">
+                    <tbody>
+                        <tr>
+                            <th style="width:40%">Document Name</th>
+                            <th style="width:30%">Release Date</th>
+                            <th>Downloads</th>
+                        </tr>
+                        {loop $data $d}
+                        <tr>
+                            <td>{$d['title']}</td>
+                            <td>{php echo date('Y-m-d',$d['inputtime']);}</td>
+                            <td>
+                                {php $document = json_decode($d['document'],true);}
+                                {loop $document $doc}
+                                <a href="{$doc['fileurl']}" title='{$doc['filename']}' download></a>
+                                {/loop}
+                            </td>
+                        </tr>
+                        {/loop}                        
+                    </tbody>
+                </table>
+                {else}
+                No User manual Here!
+                {/if}              
+            </div>
+            {/pc}
+        {else}
+        <!--#document list#-->
+        {if $_GET['type']}
+        {php $one[$_GET['type']] = $p_types[$_GET['type']];}
+        {php $p_types = $one;}
+        {else}
+        {php $p_types = getcache(3897,'linkage');}
+        {php $p_types = $p_types['data'];}
+        {/if}
+        {php $i=0;}
+        {loop $p_types $type}            
+        {php $where="type=".$type['linkageid'];}
+        {pc:content action="lists_doc" catid="22" where="$where" field="relation" num="1000" moreinfo="1"}
+        {if empty($data) && $_GET['type']}
+        Sorry. NO Documents Here!
+        {/if}
+        {if !empty($data)}
+        {php $i++;}
+        <div class="listfl {if $i>1}mtop40{/if}">            
+            <div class="listit h3">{$type['name']}</div>
+            {php $t_data = array();}
+            {loop $data $d}
+            {php $t_data[$d['p_id']][] = $d;}
+            {/loop}
+
+            {loop $t_data $data}
+            <div class="box-wrap">
+                <div class="boxn">{$data[0]['p_name']}</div>
+            </div>
+            <table width="100%" border="0" cellspacing="5" cellpadding="0" class="table-three mtop10">
+                <tbody>
+                    <tr>
+                        <th style="width:40%">Document Name</th>
+                        <th style="width:30%">Release Date</th>
+                        <th>Downloads</th>
+                    </tr>
+                    {loop $data $d}
+                    <tr>
+                        <td>{$d['title']}</td>
+                        <td>{php echo date('Y-m-d',$d['inputtime']);}</td>
+                        <td>
+                            {php $document = json_decode($d['document'],true);}
+                            {loop $document $doc}
+                            <a href="{$doc['fileurl']}" title='{$doc['filename']}' download></a>
+                            {/loop}
+                        </td>
+                    </tr>
+                    {/loop}                        
+                </tbody>
+            </table>
+            {/loop}
+        </div>
+        {/if}
+        {/pc}    
+        {/loop}
+        {/if} 
+
+
+    </div>
+    <!--end treelist-->
+    <!--leftree-->
+    {php $category = getcache("category_content_$siteid",'commons');}
+    {php $url= $category[32][url]}
+    <ul class="leftree">
+        <li><a href="{$url}">ALL</a></li>
+        {php $p_types = getcache(3897,'linkage');}
+        {php $p_types = $p_types['data'];}
+        {loop $p_types $k $t}
+        <li><a href="{$url}/type-{$k}/" {if $k==$_GET['type']}class="tree-act"{/if}>{$t['name']}</a></li>
+        {/loop}
+
+        <li>
+            <a href="javascript:volid(0);" class="softhover">Software</a>
+            <ul>
+                <li><a href="{$url}/soft/">Download</a></li>
+                <li><a href="{$url}/manual/">User manual</a></li>
+                <li>
+                    {php $keylink = getcache('keylink', 'commons');}
+                    <a href="javascript:void(0);" onclick='window.open("{$keylink['license_active_online'][1]}")' >License activate online</a>
+                </li>
+            </ul>
+        </li>
+        {template "content","partner_login"}
+    </ul>
+    <!--end leftree-->
+
+    <div class="clear"></div>
+</div>
+<!--end container-->
+{template "content","footer"}

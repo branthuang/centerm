@@ -1,0 +1,76 @@
+{template "content","header"}
+<!-- content -->
+<!--breadcrumb-->
+{template "content","breadcrumb"}
+<!--breadcrumb end-->
+<div class="banner_100"><img src="{MOBILE_IMG_PATH}pro-banner.png" /></div>
+<div class="boxbg clear">
+
+    <select class="form-control" style="width:120px; float:right;" id="year_slt">
+        <option value="">ALL</option>
+        {php $year = getcache(3921,'linkage');}
+        {loop $year['data'] $k $y}
+        <option value="{$k}" 
+                {if $_GET['year']==$k}selected{/if}>
+                {$y['name']}
+        </option>
+        {/loop}
+    </select>
+    <script>
+        {php $category = getcache("category_content_$siteid", 'commons'); }
+        {php $url = $category[14][url]}
+        $(function () {
+        $('#year_slt').change(function(){
+        var k = this.value;
+                if (k){
+        location.href = "{$url}/" + k + "/";
+        } else{
+        location.href = "{$url}";
+        }
+        });
+        });
+    </script>
+</div>
+<div class="boxbg">
+    <ul class="eventslist">
+        {php $where = "1=1 ";}
+        {if $_GET['year']}
+        {php $where .= " and year = ".intval($_GET['year']);}
+        {/if}
+        {pc:content action="lists" catid="$catid" where="$where"  num="20" order="id DESC" page="$page"}
+        {loop $data $r}
+        <li style="margin-top:0; padding:0">
+            <h3 class="newstit">{$r[title]}</h3>
+            <div class="newscont">
+                <div class="newstxt">
+                    <div class="newstxt_img"><img src="{php echo $r['thumb']?thumb($r['thumb'],195,195):(IMG_PATH.'nopic_small.gif')}"/></div>
+                    {if $r['events_date']}
+                    <p><span>Date :</span> {$r['events_date']}</p>
+                    {/if}
+                    {if $r['address']}
+                    <p><span>Add : </span>{$r['address']}</p>
+                    {/if}
+                    {if $r['address_detail']}
+                    <p><span>Booth No. : </span>{$r['address_detail']}</p>
+                    {/if}
+                    {if $r['register_url']}
+                    <a href="{$r['register_url']}" target='_blank'>Read More →</a>
+                    {/if}
+                </div>
+            </div>
+        </li>
+        {/loop}
+        {/pc}    
+
+    </ul>
+</div>
+
+<nav class="pagination_box boxbg">
+    <ul class="pagination">
+        {$ct_pages}
+    </ul>
+</nav>
+
+
+<!-- content end-->
+{template "content","footer"}

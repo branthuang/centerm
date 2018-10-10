@@ -1,0 +1,71 @@
+{template "content","header"}
+{template "content","breadcrumb"}
+<!--pro-banner-->
+<div class="pro-banner1 all_w mtop20 mbottom20"><script language="javascript" src="{APP_PATH}index.php?m=poster&c=index&a=show_poster&id=12"></script></div>
+<!--pro-banner end-->
+
+<!--container-->
+<div class="mtop20 all_w mbottom20">
+    <!--treelist-->
+    <ul class="newslist fr mtop20 events" id="product_list">
+        <!--product list-->  
+        {php $where = "1=1 ";}
+        {if $_GET['year']}
+            {php $where .= " and year = ".intval($_GET['year']);}
+        {/if}
+        {pc:content action="lists" catid="$catid" where="$where"  num="20" order="id DESC" page="$page"}
+        {php $i=0;}
+        {loop $data $r}
+        {php $i++;}
+        <li {if $i!=1}class="mtop40"{/if}>
+            <div class="newscont">
+                <div class="newstxt event">
+                    {if $r[title]}
+                    <div class="h4">{$r[title]}</div>
+                    {/if}
+                    {if $r['events_date']}
+                    <p>Date : <span>{$r['events_date']}</span></p>
+                    {/if}
+                    {if $r['address']}
+                    <p>Add : <span>{$r['address']}</span></p>
+                    {/if}
+                    {if $r['address_detail']}
+                    <p>Booth No.: <span>{$r['address_detail']}</span></p>
+                    {/if}                   
+                    {if $r['register_url']}
+                    <a href="{$r['register_url']}" class="mtop20" target='_blank'>Register Now</a>
+                    {/if}
+                </div>
+                <img src="{php echo $r['thumb']?thumb($r['thumb'],195,195):(IMG_PATH.'nopic_small.gif')}" width="195" height="195" 
+                     srcset="{php echo $r['thumb']?$r['thumb']:(IMG_PATH.'nopic_small.gif')} 2x">
+            </div>
+            <div class="clear"></div>
+        </li>
+        {/loop}
+        <!--end product list-->
+        <nav class="mtop40">
+            <ul class="pagination">
+                {$ct_pages}
+            </ul>
+        </nav>
+        {/pc}        
+    </ul>
+    <!--end treelist-->
+
+    {php $category = getcache("category_content_$siteid",'commons');}
+    {php $url = $category[14][url]}
+    <!--leftree-->
+    <ul class="leftree">
+        <li><a href="{$url}#product_list" {if !$_GET['year']}class="tree-act"{/if}>ALL</a></li>
+        {php $year = getcache(3921,'linkage');}
+        {loop $year['data'] $k $y}
+        <li><a href="{$url}/{$k}/#product_list" {if $k==$_GET['year']}class="tree-act"{/if}>{$y['name']}</a></li>
+        {/loop}
+    </ul>
+    <!--end leftree-->
+
+    <div class="clear"></div>
+</div>
+<!--end container-->
+
+{template "content","footer"}

@@ -1,0 +1,54 @@
+{template "content","header"}
+{template "content","breadcrumb"}
+<!--container-->
+{php $pdf_file = json_decode($rs['pdf_file'],true);}
+{php $fileurl = $pdf_file[0]['fileurl'];}
+<div class="pdfdown">
+    <div class="pdfimg">
+        <div id='pdf_here'></div>
+        <a href="{$fileurl}" class="downpdf" download></a>
+    </div>
+</div>
+<script src="{JS_PATH}pdfobject.min.js"></script>
+<script>    
+    PDFObject.embed("{$fileurl}", "#pdf_here");
+</script>
+<style>
+.pdfobject-container { height: 910px;width:670px;}
+.pdfobject { border: 1px solid #666; }
+</style>
+
+<div class="all_w mtop20">
+    <div class="pro-zhs">
+        <!-- Related-->
+        <div class="related mbottom40 mtop60">
+            {php $category = getcache("category_content_$siteid",'commons');}
+            <div class="h2 orange mbottom40"><a href="{$category[7][url]}" class="pro-more fr mtop10">more</a>Related</div>
+            {pc:content action="lists" num="7" catid="7"}
+            <table width="1200" border="0" cellspacing="0" cellpadding="0">
+                <tbody>
+                    <tr>
+                        {php $num = count($data);}
+                        {loop $data $d}
+                        <td>
+                            <a href="{$d[url]}">
+                                <img src="{echo thumb($d['thumb'],75,110);}" width="75" height="110" srcset="{$d['thumb']} 2x">
+                                <p>{$d['title']}</p>
+                            </a>
+                        </td>
+                        {/loop}    
+                        {php for($i=0;$i< 7- $num;$i++){ }
+                        <td>&nbsp;</td>
+                        {php } }
+                    </tr>
+                </tbody>
+            </table>
+            {/pc}
+        </div>
+        <!-- end Related-->
+    </div>
+
+</div>
+<!--end container-->
+{template "content","partner_login_footer"}
+{template "content","footer"}

@@ -1,0 +1,25 @@
+<div class="boxbg mtop10">
+    <div class="h5_16 cred">Centerm Global Offices</div>
+    {pc:location action="lists"} 
+    {loop $data $d}
+    <table class="table_1 mtop10" width="100%">
+        <tr>
+            <td width="20%">Region</td>
+            <td>{php echo get_linkage($d['region'],3360);}</td>
+        </tr>
+        <tr>
+            <td>Location</td>
+            <td>{$d['location']}</td>
+        </tr>
+        <tr>
+            <td>Tel</td>
+            <td>{$d['telephone']}</td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td><a href="mailto:{$d['email']}">{$d['email']}</a></td>
+        </tr>
+    </table>
+    {/loop}
+    {/pc}
+</div>  

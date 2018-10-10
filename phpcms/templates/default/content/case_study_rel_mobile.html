@@ -1,0 +1,28 @@
+{if $rel_field}
+    {php $r_arr = explode('|',$rel_field);}
+    {php $tmp = array();}
+    {loop $r_arr $rel}
+        {if $rel}
+        {php $tmp[] = $rel;}
+        {/if}
+    {/loop}
+    {if !empty($tmp)}
+        {php $tmp = implode(',',$tmp);}
+        {php $where = " id in ($tmp) ";}
+        {pc:content action="lists" catid="21" where="$where" num="3" order="listorder desc, id desc"}
+<div class="boxbg mtop10">
+    <div class="h5_16 cred">Case Study<a href="{$category[21][url]}" style="float:right;">more</a></div>
+    <ul class="ul_list_100">
+        {loop $data $d}
+        <li onclick="location.href='{$d['url']}'">
+            <img src="{php echo thumb($d['thumb'],355,143);}"  
+                 srcset="{$d['thumb']} 2x" width="355" height="143" />
+            <div class="h5_16">{$d['title']}</div>
+            {$d['description']}
+        </li>
+        {/loop}
+    </ul>
+</div>
+       {/pc}
+    {/if}
+{/if}  

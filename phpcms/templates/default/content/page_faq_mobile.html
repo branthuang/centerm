@@ -1,0 +1,99 @@
+{php $p_type = getcache('3897','linkage');}
+
+{php $category = getcache("category_content_$siteid",'commons');}
+{php $url = $category[30][url]}
+{php $menu_type_search[0] =array('url' => $url, 'name' => 'All');}
+{loop $p_type[data] $k $t}
+    {php $menu_type_search[$k] = array('url'=> $url.'/f-'.$k.'/', 'name' => $t['name'])}
+{/loop}
+{php $p_types = getcache(3933,'linkage');}
+{php $p_types = $p_types['data'];}
+{loop $p_types $k $t}  
+    {php $menu_type_search[$k] = array('url'=> $url.'/f-'.$k.'/', 'name' => $t['name'])}
+{/loop}
+
+{template "content","header"}
+<!--breadcrumb-->
+{template "content","breadcrumb"}
+<!--breadcrumb end-->
+<!-- content -->
+
+<div class="boxbg clear">
+    <div class="input-group">
+        <input type="text" class="form-control" placeholder="search"  id="search_txt" value="{$_GET[search_txt]}">
+        <span class="input-group-addon" style="padding:0">
+            <button class="btn btn-default" style="border:none; background:none" type="button" onclick="search()">Search</button></span>
+    </div>
+    <script>
+        function search() {
+            var search_txt = $('#search_txt').val();
+            if (search_txt) {
+                location.href = "{$url}" + "/s-" + search_txt + "/";
+            } else {
+                location.href = "{$url}";
+            }
+        }
+    </script>
+</div>
+<div class="boxbg clear">
+
+
+    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+        {php $where="1=1 ";}
+        {if $_GET['search_txt']}
+            {php $where .= " and title like '%".$_GET['search_txt']."%' ";}
+        {/if}
+        {if $_GET['product_id']}
+            {php $where .= " and rel_product_id = ". intval($_GET['product_id']);}
+        {/if}
+        {if $_GET['faq_type']}
+            {php $where .= " and (rel_faq_type = ". intval($_GET['faq_type']) ." or rel_type= ". intval($_GET['faq_type'])." )";}
+        {/if}
+
+        {pc:faq action="lists" where="$where" num="20" page="$page"}
+        {if $data}
+
+        {php $i=0;}
+        {loop $data $d}
+            {php $i++;}
+        <div class="panel panel-faq">
+            <div class="panel-heading" role="tab" id="heading{$i}">
+                <h4 class="panel-title" id="panel-title{$i}">
+                    <a {if $i>1}class="collapsed" role="button"{/if} role="button" data-toggle="collapse" data-parent="#accordion" 
+                        href="#collapse{$i}" aria-expanded="true" aria-controls="collapse{$i}">
+                        {$d['title']} 
+                        <div  id="panel-title{$i}-child" class="fx {if $i==1}act_fx{/if}"></div>
+                    </a>
+                </h4>
+            </div>
+            <div id="collapse{$i}" class="panel-collapse collapse 
+                 {if $i==1}in{/if}" role="tabpanel" 
+                 aria-labelledby="heading{$i}">
+                <div class="panel-body">
+                    {$d['content']}
+                </div>
+            </div>
+        </div>
+        {/loop}
+        {/if}
+        
+    </div>
+    <nav class="pagination_box boxbg">
+      <ul class="pagination">
+        {$ct_pages}
+      </ul>
+    </nav>
+
+
+</div>
+
+<script>
+    $(function(){
+        $('.panel-title').click(function(){
+            $(".fx").removeClass("act_fx"); 
+            $("#"+this.id+"-child").toggleClass("act_fx"); 
+        });
+    });
+</script>
+<!-- content end-->
+{template "content","footer"}

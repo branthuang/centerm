@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="keywords" content="{$SEO['keyword']}">
+        <meta name="description" content="{$SEO['description']}">
+
+        <title>{if isset($SEO['title']) && !empty($SEO['title'])}{$SEO['title']}{/if}{$SEO['site_title']}</title>
+
+        <!-- Bootstrap core CSS -->
+        <link href="{MOBILE_CSS_PATH}bootstrap.min.css" rel="stylesheet">
+        <link href="{MOBILE_CSS_PATH}meanmenu.css" rel="stylesheet" />
+        <link href="{MOBILE_CSS_PATH}style.css" rel="stylesheet">
+        <script src="{MOBILE_JS_PATH}jquery.min.js" type="text/javascript"></script>
+        <script src="{MOBILE_JS_PATH}bootstrap.min.js" type="text/javascript"></script>
+        <script src="{MOBILE_JS_PATH}meanmenu/jquery.meanmenu.js" type="text/javascript"></script>
+        <script>
+            jQuery(document).ready(function () {
+		jQuery('.nav1').meanmenu({meanMenuTarget: jQuery('.nav1'),
+                meanMenuContainer: '#header_box1',
+                meanRevealPosition:"left",
+                pwsNavId:"nav1",
+                meanMenuOpen: "",
+                meanMenuClose: "",
+                });
+
+                jQuery('.nav2').meanmenu({meanMenuTarget: jQuery('.nav2'),
+                meanMenuContainer: '#header_box2',
+                meanRevealPosition:"right",
+                pwsNavId:"nav2",
+                meanMenuOpen: "",
+                meanMenuClose: "",
+                });
+
+                });	
+        </script>        
+    </head>
+
+    <body>
+        <div class="logo" onclick="location.href = '/'"><img src="{MOBILE_IMG_PATH}logo.png" width="100"></div>
+        <a href="/search.html" class="btn_r {if !isset($menu_type_search)}menu_r_1{/if}"><img src="{MOBILE_IMG_PATH}icon_ss.png" /></a>
+        <!-- top nav-->
+        <div class="header_box1" id="header_box1">
+            <div class="header">
+                <nav class="nav1">
+                    <ul>
+                        {pc:content action="category" catid="0" num="25" siteid="$siteid" order="listorder ASC"}
+                        {loop $data $r}
+                        {php $top_parentid = $r['catid'];}
+                        <li>
+                            {if $top_parentid == 7} 
+                            <a href="#">{$r[catname]}</a>
+                            {php $p_types = getcache(3897,'linkage');}
+                            {php $p_types = $p_types['data'];}
+                            {php $category = getcache("category_content_$siteid",'commons');}
+                            {php $url = $category[7][url]}
+                            <ul>
+                                {loop $p_types $k $v}
+                                <li><a href="{$url}/{$k}/#product_list">{$v['name']}</a></li>
+                                {/loop}
+                            </ul>
+                            {else}
+                            {pc:content action="category" catid="$top_parentid" num="15" siteid="$siteid" order="listorder ASC" return="data2"}
+                            {if $data2}
+                            <a href="#">{$r[catname]}</a>
+                            <ul>
+                                {loop $data2 $r2}
+                                <li><a href="{$r2[url]}" {if $r2['type'] ==2}target='_blank'{/if}>{$r2[catname]}</a></li>
+                                {/loop}
+                            </ul>
+                            {else}
+                            <a href="{$r[url]}">{$r[catname]}</a>
+                            {/if}
+                            {/pc}
+                            {/if}
+                        </li>
+                        {/loop}
+                        {/pc}
+
+                        <li><a href="#"><img src="{MOBILE_IMG_PATH}icon3@2x.png" class="nav_icon38" /></a>
+                            {pc:link action="lists" typeid="64" siteid="$siteid" linktype="0" order="desc" num="10" return="dat"}
+                            <ul>
+                                {loop $dat $d}
+                                <li><a href="#" onclick='window.open("{$d['url']}")'>{$d['name']}</a></li>
+                                {/loop}
+                            </ul>
+                            {/pc}
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        
+        <!-- top nav2-->
+        <div class="header_box2 {if !isset($menu_type_search)}menu_r_2{/if}" id="header_box2"><!-- 左侧菜单隐藏加css menu_r_2-->
+            <div class="header2" style="position:relative;">
+
+                <nav class="nav2">
+                    <ul>
+                        {loop $menu_type_search $key $val}
+                        <li><a href="{$val['url']}">{$val['name']}</a>
+                            {if $key == 0}
+                            <div style="position:absolute; left:0; top:-52px; height:50px; width:52px; display:block; background-color:#fff; z-index:999999"></div>
+                            {/if}
+                        </li>
+                        {/loop}
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <!-- top nav2 end-->
+        
+        {php $keylink = getcache('keylink', 'commons');}

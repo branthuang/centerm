@@ -1,0 +1,25 @@
+<div class="related mbottom40 mtop60">
+    <div class="h3 orange mbottom40"><a href="{$category[7][url]}" class="pro-more fr mtop10">more</a>Related</div>
+    {pc:content action="lists" num="7" catid="7" order="listorder desc, id desc"}
+    <table width="1200" border="0" cellspacing="0" cellpadding="0">
+        <tbody>
+            <tr>
+                {php $i=0;}
+                {loop $data $d}
+                {php $i++;}
+                <td>
+                    <a href="{$d[url]}">
+                        <img src="{php echo $d['thumb']?thumb($d['thumb'],100,110):(IMG_PATH.'nopic_small.gif')}" width="100" height="110" 
+                             srcset="{$d['thumb']} 2x">
+                        <p>{$d['title']}</p>
+                    </a>
+                </td>
+                {/loop}
+                {php for($k=0;$k < 7-$i;$k++){}
+                <td>&nbsp;</td>
+                {php }}
+            </tr>
+        </tbody>
+    </table>
+    {/pc}
+</div>

@@ -1,0 +1,89 @@
+{template "content","header"}
+{template "content","breadcrumb"}
+<!--container-->
+<div class="container">
+    <!--rightbar-->
+    <div class="rightbar">
+        {template "content","subscribe"}
+        {template "content","news_types"}
+    </div>
+
+    <!--end rightbar-->
+    <!--newslist-->
+    {php $where = "1=1";}
+    <!--#搜索#-->
+    {if $_GET['search_txt']}
+        {php $where .= " and title like = '%".$_GET['search_txt']."%'";}
+    {/if}
+    <!--#新闻分类#-->
+    {if $_GET['typesid']}
+        {php $typesid = $_GET['typesid'];}
+    {/if}
+    {pc:content action="lists" catid="$catid" typesid="$typesid" moreinfo="1" num="5" order="id DESC" page="$page"}
+    <ul class="newslist">
+        {php $i=0;}
+        {loop $data $r}
+        {php $i++;}
+        <li {if $i!=1}class="mtop40"{/if}>
+            <h3 class="newstit">{$r[title]}</h3>
+            <h5 class="newsdate">{date('F d, Y',$r[inputtime])}</h5>
+            <div class="newscont">
+                <div class="newstxt">
+                    <span>{php $content = str_cut(strip_tags($r['content']),650)}
+                        {nl2br($content)}</span>
+                    <br/>
+                    <a href="{$r['url']}">Read More →</a>
+                </div>
+                <img src="{php echo $r['thumb']?thumb($r['thumb'],200,150):(IMG_PATH.'nopic_small.gif')}" 
+                     srcset="{php echo $r['thumb']?$r['thumb']:(IMG_PATH.'nopic_small.gif')} 2x" width="200" height="150">
+            </div>
+            <div class="tabar mtop20">                
+                <div class="tabcont">
+                    {php $str=""; }
+                    {php $where="news_key = '".$r['categories']."'";}
+                    {pc:content action="tags" where="$where" return="tags"}
+                    {if $tags}
+                    {loop $tags $t}
+                    {if $str}
+                    {php $str .= ','."<span>".$t['name']."</span>";}
+                    {else}
+                    {php $str = "<span>".$t['name']."</span>";}
+                    {/if}
+                    {/loop}
+                    {/if}
+                    {/pc}
+                    {php echo $str;}
+                </div>
+                <div class="tabtit">Categories</div>
+            </div>
+            <div class="clear"></div>
+            <div class="tabar mtop10">
+                <ul class="tabcont">
+                    {php $str=""; }
+                    {php $where="news_key = '".$r['tags']."'";}
+                    {pc:content action="tags" where="$where" return="tags"}
+                    {if $tags}
+                    {loop $tags $t}                                
+                    {php $str .= "<li><img src='".IMG_PATH."image/icon-tag.png' width='15' height='15' srcset='".IMG_PATH."image/icon-tag@2x.png 2x' /><span>".$t['name']."</span></li>";}
+                    {/loop}
+                    {/if}
+                    {/pc}
+                    {php echo $str;}
+                </ul>
+                <div class="tabtit">Tags</div>
+            </div>
+        </li>
+        {/loop}      
+    </ul>
+    <nav class="mtop40">
+        <ul class="pagination">
+            {$ct_pages}
+        </ul>
+    </nav>
+    {/pc}  
+    <!--end newslist-->
+    <div class="clear"></div>
+</div>
+<!--end container-->
+
+{template "content","footer"}

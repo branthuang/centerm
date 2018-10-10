@@ -1,0 +1,34 @@
+{template "content","header"}
+{template "content","breadcrumb"}
+
+<!-- content -->
+{php $pdf_file = json_decode($rs['pdf_file'],true);}
+{php $fileurl = $pdf_file[0]['fileurl'];}
+<div class="banner_100" id='pdf_here'>
+</div>
+<script src="{JS_PATH}pdfobject.min.js"></script>
+<script>    
+    PDFObject.embed("{$fileurl}", "#pdf_here");
+</script>
+
+<div class="boxbg mtop10">
+    <button type="button" class="btn_1 btn_w100" onclick='window.open("{$fileurl}")'>download</button>
+</div>
+
+<div class="boxbg mtop10">
+    {php $category = getcache("category_content_$siteid",'commons');}
+    <div class="h5_16 gray">Related<a href="{$category[7][url]}" style="float:right;">more</a></div>
+    <ul class="product_list clear">
+        {pc:content action="lists" num="6" catid="7"}
+        {loop $data $d}
+        <li onclick='location.href="{$d[url]}"'>
+            <img src="{echo thumb($d['thumb'],75,110);}" width="75" height="110" srcset="{$d['thumb']} 2x"/>
+            <div class="gray999">{$d['title']}</div>
+        </li>
+        {/loop}    
+        {/pc}
+    </ul>
+</div>
+
+<!-- content end-->
+{template "content","footer"}

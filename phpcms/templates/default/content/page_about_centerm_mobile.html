@@ -1,0 +1,68 @@
+{template "content","header"}
+<!-- content -->
+
+<!--banner-->
+<div class="abanner"><img src="{MOBILE_PIC_PATH}abanner.png" /></div>
+<div class="bannerbtm boxbg">
+    <div class="banbtm-wrap">
+        <div class="banbtm-txt">
+            <P class="h5_18 cred t_c">{$title}</P>
+            <span>{$content}</span>
+        </div>
+        <ul class="ul_list_50 clear">
+            {php $images = string2array(new_html_entity_decode($images));}
+            {loop $images $img}
+            <li><img src="{$img[url]}"></li>
+            {/loop}    
+        </ul>
+        <div class="clear"></div>
+    </div>
+</div>
+<!--banner end-->
+
+
+<!--TECH ALLIANCES-->
+<div class="boxbg mtop10 clear">
+    <div class="h5_16 gray">TECH ALLIANCES</div>
+    <div class="piclist mtop20" id="piclist" style="clear:both">
+        <ul class="ul_list_25 ptop10">
+            {pc:link action="lists" typeid="54"}
+            {loop $data $l}
+            <li onclick="window.open('{$l[url]}')" >
+                <img src="{php echo thumb($l['logo'],150,66);}">
+                {$l['name']}</li>
+            {/loop}
+        </ul>
+    </div>
+</div>
+<div class="boxbg mtop10 clear">
+    {php $category = getcache("category_content_$siteid",'commons');}
+    {php $url= $category[21][url]}
+    <div  class="h5_16 gray">CUSTOMERS<a href="{$url}" style="float:right;">Success Stories ></a></div>
+    <div class="piclist mtop20" id="piclist" style="clear:both">
+        <ul class="ul_list_25 ptop10">
+            {pc:link action="lists" typeid="55"}
+            {loop $data $d}  
+            <li>
+                <img src="{php echo thumb($d['logo'],150,66);}">
+                {$d['name']}</li>
+            {/loop}
+        </ul>
+    </div>
+</div>
+<!--end TECH ALLIANCES-->
+<ul class="ul_list_50 boxbg mtop10 clear">
+    <li>
+        <img  src="{MOBILE_PIC_PATH}Follow@2x.png" style="width:40px; height:40px">
+        {php $keylink = getcache('keylink', 'commons');}
+        <p class="mtop10">Become Centerm Partner<br><a href="{$keylink['partner_login'][1]}" class="cred mtop10">Sign up now ></a></p>       
+    </li>
+    <li>
+        <img  src="{MOBILE_PIC_PATH}Openbook@2x.png" style="width:40px; height:40px">
+        {php $category = getcache("category_content_$siteid",'commons');}
+        <p class="mtop10">Product List<br><a href="{$category[7][url]}" class="cred">More here ></a></p>       
+    </li>
+</ul>
+
+<!-- content end-->
+{template "content","footer"}

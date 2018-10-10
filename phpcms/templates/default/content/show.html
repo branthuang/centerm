@@ -1,0 +1,51 @@
+{template "content","header"}
+{template "content","breadcrumb"}
+<!--container-->
+<div class="container">
+    <!--rightbar-->
+    <div class="rightbar">
+        {template "content","subscribe"}
+        {template "content","news_types"}
+    </div>
+
+    <!--end rightbar-->
+    <!--newslist-->
+    <div class="news">
+        <h3 class="tit-style">{$title}</h3>
+        <h5 class="date-style">{date('F d, Y',strtotime($inputtime))}</h5>
+        <div class="cont-style">
+            {$content}
+        </div>
+        <div class="share mtop40">
+            {template "content","keylink"}
+        </div>
+    </div>
+    <nav class="mtop40 relate">
+        {pc:content action="relation" relation="$relation" id="$id" catid="$catid" num="5" keywords="$rs[keywords]"}
+                {if $data}
+                    <div class="h3">Related</div>
+                    <ul class="rel-cont h5">            
+                            {loop $data $r}
+                        <li>
+                            <a href="{$r[url]}">{$r[title]}</a>
+                            <p>({date('Y-m-d',$r[inputtime])})</p>
+                        </li>
+                            {/loop}
+                    </ul>
+                {/if}
+            {/pc}
+    </nav>
+    <nav class="mtop40 relate">
+        <div class="h3">Additional Information</div>
+        {php $category = getcache("category_content_$siteid",'commons');}
+        <p class="h5"><a href="{$category[7][url]}">View More</a> about Centerm Product.
+            &nbsp;&nbsp;&nbsp;&nbsp; / &nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="{$category[11][url]}">Contact Us</a> to help your business.
+        </p>
+    </nav>
+    <!--end newslist-->
+    <div class="clear"></div>
+</div>
+<!--end container-->
+
+{template "content","footer"}

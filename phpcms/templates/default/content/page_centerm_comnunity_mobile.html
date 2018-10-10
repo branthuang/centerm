@@ -1,0 +1,173 @@
+{template "content","header"}
+<!--breadcrumb-->
+{template "content","breadcrumb"}
+<!--breadcrumb end-->
+<!-- content -->
+<div class="supbg">
+    <h5>CENTERM COMMUNITY</h5>
+    <h4 class="pse">Get support by Centerm Experts</h4>
+    <span class="h4">Please add new posts for your questions, your feature requests and your use cases here. Centerm Team will review these posts and provide feedback.</span>
+    <div><a href="#" data-toggle="modal" data-target="#supModal"></a></div>
+</div>
+<div class="boxbg clear">
+    <div class="input-group" >
+        <input type="text" class="form-control" value="{$_GET['search_txt']}" placeholder="search" id="search_txt">
+        <span class="input-group-addon" style="padding:0">
+            <button class="btn btn-default" style="border:none; background:none" type="button" onclick="search()">Search</button>
+        </span>
+    </div>
+</div>
+<div class="boxbg clear mtop10">
+    <select class="form-control" style="width:120px; float:left; margin-right:15px" id='show_type' name='show_type'>
+        <option {if $_GET['show_type']==1}selected{/if} value='1'>Show all</option>
+        <option {if $_GET['show_type']==2}selected{/if} value='2'>Show part</option>
+    </select>
+   <select class="form-control" style="width:180px; float:left;" id='sort_type' name='sort_type'>
+        <option {if $_GET['sort_type']==1}selected{/if} value='1'>Sort by newest post</option>
+        <option {if $_GET['sort_type']==2}selected{/if} value='2'>Sort by lastest post</option>
+    </select>
+    
+    <div class="clear"></div>
+
+    {php $where ="1=1";}
+    
+    {if $_GET['search_txt']}
+        {php $where .= " and message like '%".$_GET['search_txt']."%'";}
+    {/if}
+    
+    {if $_GET['sort_type']==2}
+        {php $order ="addtime asc";}
+    {else}
+        {php $order = "addtime desc"}
+    {/if}
+    
+    {if $_GET['show_type']==1}
+        {php $num = "1000";}
+    {else}
+        {php $num = "20";}
+    {/if}
+    
+    {pc:contact action="lists" num="$num" order="$order" where="$where" catid="$catid" page="$page"}
+    {if $data}
+    <ul class="bbs_list clear">
+        {php $i=0;}
+        {loop $data $d}
+        {php $i++;}
+        <li>
+            <div class="user_pic"><img src="{IMG_PATH}pic/userpic.png"  /></div>
+            <p><span>{$d['name']}:</span>{$d['message']}</p>
+            {if $d['response']}
+            <div class="user_c">{$d['response']}</div>
+            {/if}
+            {if $d['response_user']}
+            <h5>{$d['response_user']}  -  {date('M d, Y',$d[response_time])} </h5>
+            {/if}
+        </li>
+        {/loop}        
+    </ul>
+    {/if}
+</div>    
+
+
+<nav class="pagination_box boxbg">
+    <ul class="pagination">
+        {$ct_pages}
+    </ul>
+</nav>
+
+<!-- Modal -->
+<div class="modal fade popup1" id="supModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header head-size">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h3 id="myModalLabel">Publish</h3>
+            </div>
+            <form role="form">
+                <div class="form-group wid40 fl mleft40 mtop10">
+                    <label class="label-font"><font style="color:#ff0000">*</font> Name</label>
+                    <input type="text" class="form-control in-form"  placeholder="Name" name="name" id="name" />
+                </div>
+                <div class="form-group wid40 fl mleft40 mtop40">
+                    <label class="label-font"><font style="color:#ff0000">*</font> Company</label>
+                    <input type="text" class="form-control in-form"  placeholder="Company" name="company" id="company"/>
+                </div>
+                <div class="form-group wid40 fl mleft40 mtop40">
+                    <label class="label-font"><font style="color:#ff0000">*</font> Email</label>
+                    <input type="text" class="form-control in-form"  placeholder="Email" name="email" id="email"/>
+                </div>
+                <div class="form-group wid40 fl mleft40 mtop40">
+                    <label class="label-font"><font style="color:#ff0000">*</font> Tel</label>
+                    <input type="text" class="form-control in-form"  placeholder="Telephone" name="phone" id="phone"/>
+                </div>
+                <div class="form-group wid40 fl mleft40 mtop40">
+                    <label class="label-font"> Country</label>
+                    <input type="text" class="form-control in-form"  placeholder="Country" name="country" id="country"/>
+                </div>
+                <div class="form-group wid87 fl mleft40 mtop40">
+                    <label class="label-font"> Message</label>
+                    <textarea class="form-control" rows="3" name="message" id="message"></textarea>
+                </div>
+            </form>
+            <button type="button" class="btn btn-form mtop80 mleft40 mbottom40" id="dosubmit">Submit</button>
+        </div>
+    </div>
+</div>
+<!-- end Modal -->
+<script type="text/javascript">
+    $(function() {
+        $('#dosubmit').click(function() {
+            var name = $('#name').val();
+            var phone = $('#phone').val();
+            var email = $('#email').val();
+            var company = $('#company').val();
+            var country = $('#country').val();
+            var message = $('#message').val();
+            if (!name || !company || !email || !phone) {
+                alert("Please Enter Necessary Infos!");
+                return false;
+            }
+            $.ajax({
+                type: "POST",
+                url: "index.php?m=contact&c=index&a=add_community",
+                data: "name=" + name
+                        + "&company=" + company
+                        + "&email=" + email
+                        + "&phone=" + phone
+                        + "&country=" + country
+                        + "&message=" + message,
+                success: function(msg) {
+                    if (msg == 1) {
+                        alert("Your Message Has Sended Success. We Will Response You As Soon As Possible!");
+                        location.reload();
+                    } else if (msg == 2) {
+                        alert('Notice: Has Submitted');
+                    } else {
+                        alert(msg);
+                    }
+                }
+
+            });
+        });
+        $("#show_type").bind('change',function(){
+            search();
+          });
+          $("#sort_type").bind('change',function(){
+            search();
+          });
+    });
+    function search() {
+        var search_txt = $('#search_txt').val();
+        var show_type = $('#show_type').val();
+        var sort_type = $('#sort_type').val();
+        {php $category = getcache("category_content_$siteid", 'commons');}
+        var url = '{$category[25][url]}';
+        url += "/" + sort_type + "/" + show_type + "/";
+        if (search_txt) {
+            url += search_txt + "/";
+        }
+        location.href = url;
+    }
+</script>
+<!-- content end-->
+{template "content","footer"}

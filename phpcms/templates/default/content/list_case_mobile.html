@@ -1,0 +1,52 @@
+{php $category = getcache("category_content_$siteid",'commons');}
+{php $url = $category[21][url]}
+{php $industry = getcache(3904,'linkage');}
+
+{php $menu_type_search[0] =array('url' => 'javascript:void(0);', 'name' => '[ By Industry ]');}
+{php $i = 0}
+{loop $industry[data] $k $v}
+{php $i++;}
+{php $menu_type_search[$i] = array('url'=>$url.'/industry-'.$k.'/','name'=>'&nbsp;&nbsp;&nbsp;'.$v['name']);}
+{/loop}
+
+{php $i++;}
+{php $menu_type_search[$i] =array('url' => 'javascript:void(0);', 'name' => '[ By Use Case ]');}
+{php $case = getcache(3905,'linkage');}
+{loop $case[data] $k $v}
+{php $i++;}
+{php $menu_type_search[$i] = array('url'=>$url.'/case-'.$k.'/','name'=>'&nbsp;&nbsp;&nbsp;'.$v['name']);}
+{/loop}
+
+{template "content","header"}
+<!-- content -->
+<!--breadcrumb-->
+{template "content","breadcrumb"}
+<!--breadcrumb end-->
+<!-- content -->
+<div class="boxbg mtop10">
+    <ul class="ul_list_100">
+        {php $where="1=1";}
+        {if $_GET['industry']}
+        {php $where .= " and by_industry = $_GET[industry]";}
+        {/if}
+        {if $_GET['case']}
+        {php $where .= " and by_use_case = $_GET[case]";}
+        {/if}
+        {pc:content action="lists" catid="$catid" num="100" where="$where"}
+        {if $data}
+            {loop $data $d}
+            <li onclick="location.href='{$d['url']}'">
+                <img src="{php echo thumb($d['thumb'],355,143);}" width="355" height="143" 
+                                         srcset="{$d['thumb']} 2x" />
+                <div class="h5_16 gray">{$d['title']}</div>
+                {$d['description']}
+            </li>
+            {/loop}
+        {else}
+        No Record Here!
+        {/if}
+        {/pc}
+    </ul>
+</div>
+<!-- content end-->
+{template "content","footer"}

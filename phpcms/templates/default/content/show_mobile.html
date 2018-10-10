@@ -1,0 +1,41 @@
+{template "content","header"}
+<!-- content -->
+{template "content","breadcrumb"}
+<!--newslist-->
+<div class="news boxbg">
+    <h3 class="h5_16 cred t_c mtop10">{$title}</h3>
+    <h5 class="h5_12 gray999 t_c">{date('F d, Y',strtotime($inputtime))}</h5>
+    <div class="cont-style">
+        {$content}
+    </div>
+</div>
+<div class="boxbg mtop10">
+    {pc:content action="relation" relation="$relation" id="$id" catid="$catid" num="5" keywords="$rs[keywords]"}
+    {if $data}
+    <div class="h5_16 gray">Related</div>
+    <ul class="ul_f_l_2">
+        {loop $data $r}
+        <li>
+            <a href="{$r[url]}">{$r[title]}</a>
+            <p>({date('Y-m-d',$r[inputtime])})</p>
+        </li>
+        {/loop}
+    </ul>
+    {/if}
+    {/pc}
+</div>
+<nav class="boxbg mtop10">
+    <div class="h5_16 gray">Additional Information</div>
+    {php $category = getcache("category_content_$siteid",'commons');}
+    <p class="h5" style="font-size:12px; line-height:22px"><a href="{$category[7][url]}">View More</a> about Centerm Product.
+        &nbsp;&nbsp;&nbsp;&nbsp; / &nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="{$category[11][url]}">Contact Us</a> to help your business.</p>
+</nav>
+<!--end newslist-->
+
+<!--rightbar-->
+{template "content","subscribe"}
+{template "content","news_types"}
+<!--end rightbar-->    
+<!-- content end-->
+{template "content","footer"}

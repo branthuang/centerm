@@ -1,0 +1,74 @@
+{php $p_type = getcache('3897','linkage');}
+
+{php $category = getcache("category_content_$siteid",'commons');}
+{php $url = $category[7][url]}
+{php $menu_type_search[0] =array('url' => $url, 'name' => 'All');}
+{loop $p_type[data] $k $t}
+    {php $menu_type_search[$k] = array('url'=> $url.'/'.$k.'/', 'name' => $t['name'])}
+{/loop}
+
+{template "content","header"}
+
+<!--breadcrumb-->
+{template "content","breadcrumb"}
+<!--breadcrumb end-->
+<!-- content -->
+{if $_GET['search_txt']}
+    {php $where = " title like '%".$_GET['search_txt']."%'";}
+    {pc:content action="lists" catid="$catid" where="$where"  num="1000" order="id DESC" page="1"}
+        {if !empty($data)}
+            <div class="boxbg">
+                <div class="h5_16 cred">WE FOUND THIS</div>
+                <ul class="product_list clear">
+                    {loop $data $r}
+                    <li onclick='location.href="{$r['url']}/{$r['title']}/"'>
+                        <img src="{php echo $r['thumb']?thumb($r['thumb'],270,270):(IMG_PATH.'nopic_small.gif')}" 
+                            srcset="{php echo $r['thumb']?$r['thumb']:(IMG_PATH.'nopic_small.gif')} 2x">
+                        <h5>{$r['title']}</h5>
+                        <p>{$r['product_des']}</p>
+                        <a href="{$r['url']}/{$r['title']}/">More > </a>
+                    </li>                        
+                    {/loop}
+                </ul>
+            </div>
+        {else}
+            Sorry, Not Fount Anything
+        {/if}
+    {/pc}
+{else}
+    {if $_GET['product_type']}
+        {php $type_arr[$_GET['product_type']] = $p_type['data'][$_GET['product_type']];}
+    {else}
+        {php $type_arr = $p_type['data'];}
+    {/if}
+
+    {php $i=0; }
+    {loop $type_arr $k $t}
+        {php $where="product_type=".$k ;}
+        {pc:content action="lists" catid="$catid" where="$where"  num="1000" order="listorder desc, id DESC" page="1"}
+            {if !empty($data)}
+            <div class="boxbg {if $i!=1 } mtop10{/if}" >
+                <div class="h5_16 cred">{$t['name']}</div>
+                <ul class="product_list clear">
+                    {loop $data $r}
+                    <li onclick='location.href="{$r['url']}/{$r['title']}/"'>
+                        <img src="{php echo $r['thumb']?thumb($r['thumb'],270,270):(IMG_PATH.'nopic_small.gif')}" 
+                            srcset="{php echo $r['thumb']?$r['thumb']:(IMG_PATH.'nopic_small.gif')} 2x">
+                        <h5>{$r['title']}</h5>
+                        <p>{$r['product_des']}</p>
+                        <a href="{$r['url']}/{$r['title']}/">More > </a>
+                    </li>                        
+                    {/loop}
+                </ul>
+            </div>
+
+            {/if}
+        {/pc}
+        {php $i++;}
+
+    {/loop}
+{/if}
+
+
+<!-- content end-->
+{template "content","footer"}
