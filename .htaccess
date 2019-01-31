@@ -1,0 +1,40 @@
+RewriteEngine on
+RewriteRule ^([^/]+)/$ index.php [L]
+RewriteRule ^([^/]+)/index.php index.php [L,QSA]
+RewriteRule ^([^/]+)/api.php api.php [L,QSA]
+RewriteRule ^content-([0-9]+)-([0-9]+)-([0-9]+).html index.php?m=content&c=index&a=show&catid=$1&id=$2&page=$3
+RewriteRule ^show-([0-9]+)-([0-9]+)-([0-9]+).html index.php?m=content&c=index&a=show&catid=$1&id=$2&page=$3
+RewriteRule ^list-([0-9]+)-([0-9]+).html/([0-9]+)/ index.php?m=content&c=index&a=lists&catid=$1&page=$2&typesid=$3
+RewriteRule ^list-([0-9]+)-([0-9]+).html index.php?m=content&c=index&a=lists&catid=$1&page=$2
+RewriteRule ^list-([0-9]+)-([0-9]+)-([0-9]+).html index.php?m=content&c=index&a=lists&catid=$1&page=$2&typesid=$3
+
+RewriteRule ^events-([0-9]+)-([0-9]+).html/([0-9]+)/ index.php?m=content&c=index&a=lists&catid=$1&page=$2&year=$3
+RewriteRule ^events-([0-9]+)-([0-9]+).html index.php?m=content&c=index&a=lists&catid=$1&page=$2
+
+RewriteRule ^products-([0-9]+)-([0-9]+).html/([0-9]+)/ index.php?m=content&c=index&a=lists&catid=$1&page=$2&product_type=$3
+RewriteRule ^products-([0-9]+)-([0-9]+).html/s-([a-zA-Z0-9\-]*)/ index.php?m=content&c=index&a=lists&catid=$1&page=$2&search_txt=$3
+RewriteRule ^products-([0-9]+)-([0-9]+).html index.php?m=content&c=index&a=lists&catid=$1&page=$2
+
+RewriteRule ^case-([0-9]+)-([0-9]+).html/industry-([0-9]+)/ index.php?m=content&c=index&a=lists&catid=$1&page=$2&industry=$3
+RewriteRule ^case-([0-9]+)-([0-9]+).html/case-([0-9]+)/ index.php?m=content&c=index&a=lists&catid=$1&page=$2&case=$3
+RewriteRule ^case-([0-9]+)-([0-9]+).html index.php?m=content&c=index&a=lists&catid=$1&page=$2
+
+RewriteRule ^community-([0-9]+)-([0-9]+).html/([0-9]*)/([0-9]*)/([a-zA-Z0-9\-]*)/ index.php?m=content&c=index&a=lists&catid=$1&page=$2&sort_type=$3&show_type=$4&search_txt=$5
+RewriteRule ^community-([0-9]+)-([0-9]+).html/([0-9]*)/([0-9]*)/ index.php?m=content&c=index&a=lists&catid=$1&page=$2&sort_type=$3&show_type=$4
+RewriteRule ^community-([0-9]+)-([0-9]+).html index.php?m=content&c=index&a=lists&catid=$1&page=$2
+
+RewriteRule ^faq-([0-9]+)-([0-9]+).html/p-([0-9]*)/ index.php?m=content&c=index&a=lists&catid=$1&page=$2&product_id=$3
+RewriteRule ^faq-([0-9]+)-([0-9]+).html/f-([0-9]*)/ index.php?m=content&c=index&a=lists&catid=$1&page=$2&faq_type=$3
+RewriteRule ^faq-([0-9]+)-([0-9]+).html/s-([a-zA-Z0-9\-]*)/ index.php?m=content&c=index&a=lists&catid=$1&page=$2&search_txt=$3
+RewriteRule ^faq-([0-9]+)-([0-9]+).html index.php?m=content&c=index&a=lists&catid=$1&page=$2
+
+RewriteRule ^download-([0-9]+)-([0-9]+).html/type-([0-9]*)/ index.php?m=content&c=index&a=lists&catid=$1&page=$2&type=$3
+RewriteRule ^download-([0-9]+)-([0-9]+).html/soft/ index.php?m=content&c=index&a=lists&catid=$1&page=$2&soft=1
+RewriteRule ^download-([0-9]+)-([0-9]+).html/manual/ index.php?m=content&c=index&a=lists&catid=$1&page=$2&manual=1
+RewriteRule ^download-([0-9]+)-([0-9]+).html index.php?m=content&c=index&a=lists&catid=$1&page=$2
+
+RewriteRule ^product_detail/([0-9]+).html index.php?m=content&c=index&a=show&catid=7&id=$1&page=1
+
+RewriteRule ^search.html index.php?m=content&c=search&a=m_init
+
+ErrorDocument 404 /404.html
