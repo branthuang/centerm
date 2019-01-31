@@ -58,7 +58,13 @@
                             {php $url = $category[7][url]}
                             <ul>
                                 {loop $p_types $k $v}
-                                <li><a href="{$url}/{$k}/#product_list">{$v['name']}</a></li>
+                                <li><a 
+                                    {if $v['description']}
+                                        href="{$v['description']}" 
+                                    {else}
+                                        href="{$url}/{$k}/#product_list"
+                                    {/if}
+                                 >{$v['name']}</a></li>
                                 {/loop}
                             </ul>
                             {else}

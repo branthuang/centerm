@@ -8,6 +8,20 @@ return array (
     3937 => 
     array (
       'linkageid' => '3937',
+      'name' => 'none',
+      'style' => '',
+      'parentid' => '0',
+      'child' => '0',
+      'arrchildid' => '',
+      'keyid' => '3936',
+      'listorder' => '0',
+      'description' => '',
+      'setting' => NULL,
+      'siteid' => '0',
+    ),
+    3938 => 
+    array (
+      'linkageid' => '3938',
       'name' => 'L1',
       'style' => '',
       'parentid' => '0',
@@ -19,32 +33,18 @@ return array (
       'setting' => NULL,
       'siteid' => '0',
     ),
-    3938 => 
+    3939 => 
     array (
-      'linkageid' => '3938',
+      'linkageid' => '3939',
       'name' => 'L2',
-      'style' => '',
+      'style' => '0',
       'parentid' => '0',
       'child' => '0',
       'arrchildid' => '',
       'keyid' => '3936',
       'listorder' => '0',
       'description' => 'http://www.sina.com.cn',
-      'setting' => NULL,
-      'siteid' => '0',
-    ),
-    3939 => 
-    array (
-      'linkageid' => '3939',
-      'name' => 'none',
-      'style' => '',
-      'parentid' => '0',
-      'child' => '0',
-      'arrchildid' => '',
-      'keyid' => '3936',
-      'listorder' => '0',
-      'description' => '',
-      'setting' => NULL,
+      'setting' => '{"level":"0"}',
       'siteid' => '0',
     ),
   ),

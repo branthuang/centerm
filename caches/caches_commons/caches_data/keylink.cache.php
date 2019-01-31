@@ -3,7 +3,7 @@ return array (
   'license_active_online' => 
   array (
     0 => 'license_active_online',
-    1 => 'http://www.aaav.com',
+    1 => 'http://eip.centerm.com:8050/?currentculture=en-us',
   ),
   'partner_login' => 
   array (
@@ -23,7 +23,7 @@ return array (
   'facebook' => 
   array (
     0 => 'facebook',
-    1 => 'https://www.facebook.com/CentermInformation/',
+    1 => 'https://www.facebook.com/CentermChina/',
   ),
   'youtube' => 
   array (

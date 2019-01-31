@@ -51,12 +51,14 @@
                 <div class="h5_16 cred"><?php echo $t['name'];?></div>
                 <ul class="product_list clear">
                     <?php $n=1;if(is_array($data)) foreach($data AS $r) { ?>
-                    <li onclick='location.href="<?php echo $r['url'];?>/<?php echo $r['title'];?>/"'>
+                    <?php $link = $r['islink']?$r['url']:$r['url'].'/'.$r['title'].'/';?> 
+                    <?php $on_click = $r['islink']?"window.open(\"$link\")":"location.href=\"$link\""; ?>
+                    <li onclick='<?php echo $on_click;?>'>
                         <img src="<?php echo $r['thumb']?thumb($r['thumb'],270,270):(IMG_PATH.'nopic_small.gif')?>" 
                             srcset="<?php echo $r['thumb']?$r['thumb']:(IMG_PATH.'nopic_small.gif')?> 2x">
                         <h5><?php echo $r['title'];?></h5>
                         <p><?php echo $r['product_des'];?></p>
-                        <a href="<?php echo $r['url'];?>/<?php echo $r['title'];?>/">More > </a>
+                        <a href="###">More > </a>
                     </li>                        
                     <?php $n++;}unset($n); ?>
                 </ul>

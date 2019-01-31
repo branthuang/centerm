@@ -49,12 +49,14 @@
                         <div class="listit h3"><?php echo $t['name'];?></div>
                         <ul>
                             <?php $n=1;if(is_array($data)) foreach($data AS $r) { ?>
-                            <li onclick='location.href="<?php echo $r['url'];?>/<?php echo $r['title'];?>/"'>
+							<?php $link = $r['islink']?$r['url']:$r['url'].'/'.$r['title'].'/';?> 
+							<?php $on_click = $r['islink']?"window.open(\"$link\")":"location.href=\"$link\""; ?>
+                            <li onclick='<?php echo $on_click;?>'>
                                 <img src="<?php echo $r['thumb']?thumb($r['thumb'],270,270):(IMG_PATH.'nopic_small.gif')?>" width="270" height="270" 
                                     srcset="<?php echo $r['thumb']?$r['thumb']:(IMG_PATH.'nopic_small.gif')?> 2x">
                                 <span><?php echo $r['title'];?></span>
                                 <p><?php echo $r['product_des'];?></p>
-                                <a href="<?php echo $r['url'];?>/<?php echo $r['title'];?>/">More > </a>
+                                <a href="<?php echo $link;?>/">More > </a>
                             </li>                        
                             <?php $n++;}unset($n); ?>
                         </ul>
@@ -78,7 +80,14 @@
     <ul class="leftree">        
         <li><a href="<?php echo $url;?>#product_list" <?php if(!$_GET['product_type']) { ?>class="tree-act"<?php } ?>>ALL</a></li>
         <?php $n=1; if(is_array($p_type[data])) foreach($p_type[data] AS $k => $t) { ?>
-        <li><a href="<?php echo $url;?>/<?php echo $k;?>/#product_list"<?php if($k==$_GET['product_type']) { ?>class="tree-act"<?php } ?>><?php echo $t['name'];?></a></li>
+		
+        <li><a 
+		<?php if($t['description']) { ?>
+			href="javascript:void(0);" onclick="window.open('<?php echo $t['description'];?>')"
+        <?php } else { ?>
+			href="<?php echo $url;?>/<?php echo $k;?>/#product_list"
+		<?php } ?>
+		<?php if($k==$_GET['product_type']) { ?>class="tree-act"<?php } ?>><?php echo $t['name'];?></a></li>
         <?php $n++;}unset($n); ?>
     </ul>
     <!--end leftree-->

@@ -51,12 +51,14 @@
                 <div class="h5_16 cred">{$t['name']}</div>
                 <ul class="product_list clear">
                     {loop $data $r}
-                    <li onclick='location.href="{$r['url']}/{$r['title']}/"'>
+                    {php $link = $r['islink']?$r['url']:$r['url'].'/'.$r['title'].'/';} 
+                    {php $on_click = $r['islink']?"window.open(\"$link\")":"location.href=\"$link\""; }
+                    <li onclick='{$on_click}'>
                         <img src="{php echo $r['thumb']?thumb($r['thumb'],270,270):(IMG_PATH.'nopic_small.gif')}" 
                             srcset="{php echo $r['thumb']?$r['thumb']:(IMG_PATH.'nopic_small.gif')} 2x">
                         <h5>{$r['title']}</h5>
                         <p>{$r['product_des']}</p>
-                        <a href="{$r['url']}/{$r['title']}/">More > </a>
+                        <a href="###">More > </a>
                     </li>                        
                     {/loop}
                 </ul>

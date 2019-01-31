@@ -2,7 +2,7 @@
 return array (
   'rel_case' => 
   array (
-    'fieldid' => '310',
+    'fieldid' => '309',
     'modelid' => '19',
     'siteid' => '1',
     'field' => 'rel_case',
@@ -42,7 +42,7 @@ return array (
   ),
   'rel_product' => 
   array (
-    'fieldid' => '311',
+    'fieldid' => '310',
     'modelid' => '19',
     'siteid' => '1',
     'field' => 'rel_product',

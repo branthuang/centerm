@@ -6,10 +6,10 @@ return array (
 		'port' => 3306,
 		'database' => 'centerm',
 		'username' => 'root',
-		'password' => '111111',
+		'password' => '123123',
 		'tablepre' => 'ct_',
 		'charset' => 'utf8',
-		'type' => 'mysql',
+		'type' => 'mysqli',
 		'debug' => true,
 		'pconnect' => 1,
 		'autoconnect' => 0

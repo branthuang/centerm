@@ -49,12 +49,14 @@
                         <div class="listit h3">{$t['name']}</div>
                         <ul>
                             {loop $data $r}
-                            <li onclick='location.href="{$r['url']}/{$r['title']}/"'>
+							{php $link = $r['islink']?$r['url']:$r['url'].'/'.$r['title'].'/';} 
+							{php $on_click = $r['islink']?"window.open(\"$link\")":"location.href=\"$link\""; }
+                            <li onclick='{$on_click}'>
                                 <img src="{php echo $r['thumb']?thumb($r['thumb'],270,270):(IMG_PATH.'nopic_small.gif')}" width="270" height="270" 
                                     srcset="{php echo $r['thumb']?$r['thumb']:(IMG_PATH.'nopic_small.gif')} 2x">
                                 <span>{$r['title']}</span>
                                 <p>{$r['product_des']}</p>
-                                <a href="{$r['url']}/{$r['title']}/">More > </a>
+                                <a href="{$link}/">More > </a>
                             </li>                        
                             {/loop}
                         </ul>
@@ -78,7 +80,14 @@
     <ul class="leftree">        
         <li><a href="{$url}#product_list" {if !$_GET['product_type']}class="tree-act"{/if}>ALL</a></li>
         {loop $p_type[data] $k $t}
-        <li><a href="{$url}/{$k}/#product_list"{if $k==$_GET['product_type']}class="tree-act"{/if}>{$t['name']}</a></li>
+		
+        <li><a 
+		{if $t['description']}
+			href="javascript:void(0);" onclick="window.open('{$t['description']}')"
+        {else}
+			href="{$url}/{$k}/#product_list"
+		{/if}
+		{if $k==$_GET['product_type']}class="tree-act"{/if}>{$t['name']}</a></li>
         {/loop}
     </ul>
     <!--end leftree-->

@@ -58,7 +58,13 @@
                             <?php $url = $category[7][url]?>
                             <ul>
                                 <?php $n=1; if(is_array($p_types)) foreach($p_types AS $k => $v) { ?>
-                                <li><a href="<?php echo $url;?>/<?php echo $k;?>/#product_list"><?php echo $v['name'];?></a></li>
+                                <li><a 
+                                    <?php if($v['description']) { ?>
+                                        href="<?php echo $v['description'];?>" 
+                                    <?php } else { ?>
+                                        href="<?php echo $url;?>/<?php echo $k;?>/#product_list"
+                                    <?php } ?>
+                                 ><?php echo $v['name'];?></a></li>
                                 <?php $n++;}unset($n); ?>
                             </ul>
                             <?php } else { ?>
