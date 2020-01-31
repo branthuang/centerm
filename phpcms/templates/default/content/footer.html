@@ -63,13 +63,22 @@
 </div>
 </body>
 <script type="text/javascript">
+function IsMatchingAddress(str){
+    var myRegExp = /[a-z0-9-.]{1,30}@[a-z0-9-]{1,65}.(com|net|org|info|biz|([a-z]{2,3}.[a-z]{2}))/ ;
+    return myRegExp.test(str)
+}
 jQuery(document).ready(function($){
     //邮件登记ajax提交
     $('#subscribe_to_email').click(function(){
         var email = $('#email_subscribe').val();
-        if(email && email != "Email Address"){            
-        }else{
+        //alert(IsMatchingAddress(email));        
+        if(!email || email == "Email Address"){           
             alert("Please Enter Email Address!");
+            return false;
+        }
+        if(IsMatchingAddress(email) == false)
+        {
+            alert("Please Enter Right Email Address!");
             return false;
         }
         $.ajax({

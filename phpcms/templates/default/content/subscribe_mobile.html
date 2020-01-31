@@ -20,6 +20,11 @@ $(function(){
             alert("Please Enter Email Address!");
             return false;
         }
+        if(IsMatchingAddress(email) == false)
+        {
+            alert("Please Enter Right Email Address!");
+            return false;
+        }
         $.ajax({
             type: "POST",
             url: "index.php?m=contact&c=index&a=add_subscribe",

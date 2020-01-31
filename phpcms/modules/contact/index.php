@@ -108,7 +108,7 @@ class index {
     public function add_subscribe(){
         $this->db = pc_base::load_model("subscribe_model");
         
-        $email = trim($_POST['email']);
+        $email = safe_replace(trim($_POST['email']));
         if(!$email){
             exit;
         }
@@ -199,15 +199,15 @@ class index {
            echo 2;exit; 
         }
         $info = array(
-            'first_name' => $first_name,
-            'last_name' => $last_name,
-            'company' => $company,
-            'email' => $email,
-            'phone' => $phone,
-            'country' => $country,
-            'state' => $state,
-            'interested' => $interested,
-            'comments' => $comments,
+            'first_name' => safe_replace($first_name),
+            'last_name' => safe_replace($last_name),
+            'company' => safe_replace($company),
+            'email' => safe_replace($email),
+            'phone' => safe_replace($phone),
+            'country' => safe_replace($country),
+            'state' => safe_replace($state),
+            'interested' => safe_replace($interested),
+            'comments' => safe_replace($comments),
             'addtime' => $addtime,
             'ip' => $ip
         );
