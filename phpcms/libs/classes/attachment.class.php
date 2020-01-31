@@ -91,6 +91,11 @@ class attachment {
 				$this->error = $file['error'];
 				return false;				
 			}
+			//禁止上传的扩展名
+			if(in_array($fileext,array('php','php3','html','htm'))) {
+				$this->error = '10';
+				return false;
+			}
 			if(!preg_match("/^(".$this->alowexts.")$/", $fileext)) {
 				$this->error = '10';
 				return false;
