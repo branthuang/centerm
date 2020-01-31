@@ -168,7 +168,7 @@ class attachment {
 		$oldpath = $newpath = array();
 		foreach($remotefileurls as $k=>$file) {
 			if(strpos($file, '://') === false || strpos($file, $upload_url) !== false) continue;
-			$filename = fileext($file);
+			$filename = fileext($file); if(!preg_match("/($ext)/i", $filename)) continue;
 			$file_name = basename($file);
 			$filename = $this->getname($filename);
 

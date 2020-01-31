@@ -95,9 +95,9 @@ if (!empty($tweets)){
     }
 }
 if($i>0){
-    echo "更新记录：".$i."条";
+    echo "SUCCESS! 更新记录：".$i."条";
 }else{
-    echo "无新纪录需要更新！";
+    echo "SORRY. 无新纪录需要更新！";
 }
 
 ?>
